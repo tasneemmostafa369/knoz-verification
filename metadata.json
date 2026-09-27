@@ -1,0 +1,8 @@
+{
+  "name": "Knoz Certificate Verification",
+  "description": "Electronic certificate verification system for Knoz Academy students and courses.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

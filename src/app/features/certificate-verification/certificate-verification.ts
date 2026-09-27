@@ -1,13 +1,13 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { VerificationService } from '../../core/services/verification.service';
 import { DICTIONARY, Language } from '../../core/mock/dictionary';
 import { validateAndDecodeSspId } from '../../core/utils/ssp-cipher';
 
 @Component({
   selector: 'app-certificate-verification',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './certificate-verification.html',
   styles: [`
     @keyframes stamp {
@@ -30,7 +30,6 @@ import { validateAndDecodeSspId } from '../../core/utils/ssp-cipher';
 })
 export class CertificateVerificationComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private router = inject(Router);
   private verificationService = inject(VerificationService);
 
   isLoading = signal<boolean>(true);
@@ -45,28 +44,37 @@ export class CertificateVerificationComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const rawSspId = params.get('sspId');
+
       if (!rawSspId) {
         this.error.set(this.texts()['errorNoCourseId']);
         this.isLoading.set(false);
+        this.courseData.set(null);
+        this.isInvalid.set(false);
         return;
       }
 
-      // Validate cipher format and dictionary mapping
+      this.isInvalid.set(false);
+      this.error.set(null);
+
+      // Step 1 & 2: Validate cipher format, pairs, dictionary mapping, start/end conditions
       const decodeResult = validateAndDecodeSspId(rawSspId);
 
       if (!decodeResult.isValid || !decodeResult.numericId) {
+        // Show the dedicated "Not Valid" page
         this.isInvalid.set(true);
         this.isLoading.set(false);
+        this.courseData.set(null);
         return;
       }
 
-      // Fetch certificate data with clean numeric ID
+      // Step 3: Use the separated original numeric ID to fetch verification data
       this.verify(decodeResult.numericId);
     });
   }
 
   toggleLang() {
     this.lang.update(l => l === 'ar' ? 'en' : 'ar');
+    // If error state exists, update the message
     if (this.error()) {
       if (this.error() === DICTIONARY['ar']['errorNoCourseId'] || this.error() === DICTIONARY['en']['errorNoCourseId']) {
         this.error.set(this.texts()['errorNoCourseId']);
@@ -118,7 +126,7 @@ export class CertificateVerificationComponent implements OnInit {
     const ampmAr = h >= 12 ? 'م' : 'ص';
     
     h = h % 12;
-    h = h ? h : 12;
+    h = h ? h : 12; // 0 becomes 12
     const paddedH = h < 10 ? '0' + h : h.toString();
     
     return isAr ? `${paddedH}:${m} ${ampmAr}` : `${paddedH}:${m} ${ampmEn}`;
@@ -126,7 +134,10 @@ export class CertificateVerificationComponent implements OnInit {
 
   get startDate(): string | null {
     const data = this.courseData();
-    return data?.subscribeDate || null;
+    if (data && data.subscribeDate) {
+      return data.subscribeDate;
+    }
+    return null;
   }
 
   get endDate(): string | null {
