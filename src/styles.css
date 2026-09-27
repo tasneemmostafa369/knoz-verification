@@ -1,0 +1,17 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-knoz-green: #0F392B;
+  --color-knoz-gold: #C8A559;
+  --color-knoz-cream: #F7F3E8;
+  --color-knoz-text: #1F2933;
+  --color-knoz-muted: #6B7280;
+  --color-knoz-border: #DDE3E0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Tajawal', sans-serif;
+  background-color: #F3F4F6;
+}

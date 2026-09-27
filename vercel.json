@@ -1,0 +1,13 @@
+{
+  "outputDirectory": "dist/browser",
+  "rewrites": [
+    {
+      "source": "/api/verify",
+      "destination": "/api/verify.js"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
