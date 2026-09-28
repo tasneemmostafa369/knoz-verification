@@ -7,6 +7,18 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Load .env if present
+if (typeof process.loadEnvFile === 'function') {
+  try {
+    const envPath = path.join(__dirname, '.env');
+    if (fs.existsSync(envPath)) {
+      process.loadEnvFile(envPath);
+    }
+  } catch (e) {
+    // Ignore error if .env doesn't exist
+  }
+}
+
 const app = express();
 const PORT = 3000;
 const HOST = '0.0.0.0';
@@ -62,13 +74,14 @@ app.get('/api/verify', async (req, res) => {
     return res.status(400).json({ error: 'Bad Request: Invalid or corrupted sspId format', invalid: true });
   }
 
+  const apiBaseUrl = process.env.KNOZ_API_BASE_URL ? process.env.KNOZ_API_BASE_URL.replace(/\/+$/, '') : '';
   const username = process.env.KNOZ_API_USERNAME;
   const password = process.env.KNOZ_API_PASSWORD;
 
-  if (username && password) {
+  if (apiBaseUrl && username && password) {
     try {
       // 1. Login to get token
-      const loginRes = await fetch('https://knoz-api.knoz.online/api/Auth/login', {
+      const loginRes = await fetch(`${apiBaseUrl}/api/Auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -86,7 +99,7 @@ app.get('/api/verify', async (req, res) => {
 
         if (token) {
           // 2. Fetch certificate details
-          const detailsRes = await fetch(`https://knoz-api.knoz.online/api/Monitor/Assigned-Student-Course-Details?SSPId=${sspId}`, {
+          const detailsRes = await fetch(`${apiBaseUrl}/api/Monitor/Assigned-Student-Course-Details?SSPId=${sspId}`, {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`
