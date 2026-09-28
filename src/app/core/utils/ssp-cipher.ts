@@ -1,27 +1,14 @@
 /**
  * SSP-ID Cipher & Validation Utility
  *
- * Implements the custom cipher logic:
+ * Handles validating and decoding the custom cipher format:
  * Dictionary:
- * 0 -> A, 1 -> B, 2 -> C, 3 -> D, 4 -> E,
- * 5 -> F, 6 -> G, 7 -> H, 8 -> I, 9 -> J
+ * A -> 0, B -> 1, C -> 2, D -> 3, E -> 4,
+ * F -> 5, G -> 6, H -> 7, I -> 8, J -> 9
  *
  * Format:
- * Alternating Alpha + Num pairs (e.g. 15 -> B1F5, 10637 -> B1A0G6D3H7)
+ * Alternating Alpha + Num pairs (e.g. 10637 -> B1A0G6D3H7)
  */
-
-export const SSP_DIGIT_TO_ALPHA: Record<string, string> = {
-  '0': 'A',
-  '1': 'B',
-  '2': 'C',
-  '3': 'D',
-  '4': 'E',
-  '5': 'F',
-  '6': 'G',
-  '7': 'H',
-  '8': 'I',
-  '9': 'J'
-};
 
 export const SSP_ALPHA_TO_DIGIT: Record<string, string> = {
   'A': '0',
@@ -43,40 +30,18 @@ export interface CipherValidationResult {
 }
 
 /**
- * Encodes a numeric SSP-ID or Certificate ID into the custom cipher format:
- * Each digit -> Corresponding Letter + Digit
- * Example: "15" -> "B1F5"
- * Example: "10637" -> "B1A0G6D3H7"
- */
-export function encodeSspId(rawId: string | number | null | undefined): string {
-  if (rawId === null || rawId === undefined) return '';
-  const strId = String(rawId).trim();
-  if (!strId) return '';
-
-  let encoded = '';
-  for (const char of strId) {
-    if (SSP_DIGIT_TO_ALPHA[char]) {
-      encoded += `${SSP_DIGIT_TO_ALPHA[char]}${char}`;
-    } else {
-      encoded += char;
-    }
-  }
-  return encoded;
-}
-
-/**
- * Validates and decodes an encoded SSP-ID according to the exact rules:
- * 1. Checks:
- *    - Must start with Alpha, not Num (start Num => NotValid)
- *    - Must end with Num, not Alpha (end Alpha => NotValid)
- *    - No Alpha + Alpha (consecutive letters => NotValid)
- *    - No Num + Num (consecutive numbers => NotValid)
- *    - Alternating Alpha then Num (is Alpha+Num pairs)
- * 2. Checks:
- *    - Letters must be only those used in the dictionary (A-J)
- *    - Pair correspondence: Letter must match the digit according to the dictionary
- * 3. Extracts:
- *    - Separates numbers from letters to retrieve the original numeric ID
+ * Validates and decodes an encoded SSP-ID according to the verification rules:
+ * 1. Structural Checks:
+ *    - Must start with Alpha, not Num
+ *    - Must end with Num, not Alpha
+ *    - No consecutive letters (Alpha + Alpha)
+ *    - No consecutive numbers (Num + Num)
+ *    - Length must be even (pairs of Alpha + Num)
+ * 2. Dictionary & Pair Matching:
+ *    - Letters must be within dictionary (A-J)
+ *    - Each letter must strictly match its corresponding digit
+ * 3. Extraction:
+ *    - Extracts and returns the numeric SSP-ID
  */
 export function validateAndDecodeSspId(input: string | null | undefined): CipherValidationResult {
   if (!input || !input.trim()) {
