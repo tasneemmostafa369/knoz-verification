@@ -40,15 +40,10 @@
         <p class="text-gray-600 text-base sm:text-lg max-w-lg mx-auto mb-4 leading-relaxed">
           {{ texts()['invalidLinkDesc'] }}
         </p>
-        <div class="max-w-md mx-auto bg-gray-50 border border-gray-200 rounded-2xl p-4 mb-8 text-sm text-gray-500 flex items-start gap-3 text-start">
+        <div class="max-w-md mx-auto bg-gray-50 border border-gray-200 rounded-2xl p-4 text-sm text-gray-500 flex items-start gap-3 text-start">
           <i class="fas fa-circle-info text-amber-600 text-lg mt-0.5 shrink-0"></i>
           <span>{{ texts()['invalidFormatNotice'] }}</span>
         </div>
-
-        <a routerLink="/" class="inline-flex items-center gap-2 rounded-xl bg-[#0F392B] px-6 py-3 text-sm font-bold text-white shadow-md transition-all hover:bg-[#154d3a] hover:scale-105">
-          <i class="fas fa-home text-[#C8A559]"></i>
-          <span>{{ lang() === 'ar' ? 'العودة للرئيسية' : 'Return to Home' }}</span>
-        </a>
       </div>
     }
 
