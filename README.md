@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <img src="src/assets/logo.jpeg" alt="Knoz Academy Logo" width="120" height="120" style="border-radius: 50%; box-shadow: 0 8px 24px rgba(200, 165, 89, 0.35); border: 3px solid #C8A559; margin-bottom: 16px;" onerror="this.style.display='none'" />
+  <img src="public/assets/logo.jpeg" alt="Knoz Academy Logo" width="120" height="120" style="border-radius: 50%; border: 3px solid #C8A559; margin-bottom: 16px;" />
 
   <h1>Knoz Certificate Verification Portal<br/><span>بوابة التحقق الإلكتروني من الشهادات — أكاديمية كنوز</span></h1>
 
@@ -162,6 +162,8 @@ knoz-verification/
 ├── api/
 │   └── verify.js                     # Secure backend proxy handler (Vercel Serverless Function)
 ├── public/
+│   ├── assets/
+│   │   └── logo.jpeg                 # Official Knoz Academy brand logo
 │   └── favicon.ico                   # Application browser favicon
 ├── src/
 │   ├── app/
@@ -180,8 +182,6 @@ knoz-verification/
 │   │   ├── app.html                  # Root template container
 │   │   ├── app.routes.ts             # Application routes (supports dynamic verification links)
 │   │   └── app.ts                    # Root standalone component
-│   ├── assets/
-│   │   └── logo.jpeg                 # Official Knoz Academy brand logo
 │   ├── index.html                    # Application HTML shell and font links
 │   ├── main.ts                       # Application entry point (Zoneless)
 │   └── styles.css                    # Tailwind CSS imports and theme configuration
@@ -365,6 +365,8 @@ knoz-verification/
 ├── api/
 │   └── verify.js                     # دالة Vercel Serverless الخلفية لتأمين الاتصال بالـ API
 ├── public/
+│   ├── assets/
+│   │   └── logo.jpeg                 # الشعار الرسمي المعتمد لأكاديمية كنوز
 │   └── favicon.ico                   # أيقونة الموقع للمتصفح
 ├── src/
 │   ├── app/
@@ -383,8 +385,6 @@ knoz-verification/
 │   │   ├── app.html                  # حاوية التوجيه الجذرية
 │   │   ├── app.routes.ts             # مسارات التوجيه للشهادات
 │   │   └── app.ts                    # المكون الرئيسي للتطبيق
-│   ├── assets/
-│   │   └── logo.jpeg                 # الشعار الرسمي المعتمد لأكاديمية كنوز
 │   ├── index.html                    # ملف الـ HTML الرئيسي مع خطوط جوجل
 │   ├── main.ts                       # نقطة انطلاق التطبيق بدون Zone.js
 │   └── styles.css                    # إعدادات Tailwind CSS والمتغيرات اللونية الخاصة
