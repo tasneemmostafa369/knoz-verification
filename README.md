@@ -31,9 +31,9 @@
 
 - [🇬🇧 Part 1: English Documentation](#-part-1-english-documentation)
   - [1. Executive Overview](#1-executive-overview)
-  - [2. Key Features & Business Highlights](#2-key-features--business-highlights)
+  - [2. Key Features & Security Highlights](#2-key-features--security-highlights)
   - [3. Architecture & Technical Stack](#3-architecture--technical-stack)
-  - [4. The SSP Cipher Protocol](#4-the-ssp-cipher-protocol)
+  - [4. Proprietary Verification Token Protocol](#4-proprietary-verification-token-protocol)
   - [5. Project Directory & File Structure](#5-project-directory--file-structure)
   - [6. Getting Started & Installation](#6-getting-started--installation)
   - [7. Production Deployment (Vercel & Self-Hosted)](#7-production-deployment-vercel--self-hosted)
@@ -42,9 +42,9 @@
   - [10. Contributing & License](#10-contributing--license)
 - [🇸🇦 الجزء الثاني: دليل التوثيق باللغة العربية](#-الجزء-الثاني-دليل-التوثيق-باللغة-العربية)
   - [1. نظرة عامة ورؤية المنصة](#1-نظرة-عامة-ورؤية-المنصة)
-  - [2. الميزات الرئيسية والقيمة التشغيلية](#2-الميزات-الرئيسية-والقيمة-التشغيلية)
+  - [2. الميزات الرئيسية والأمان المؤسسي](#2-الميزات-الرئيسية-والأمان-المؤسسي)
   - [3. المعمارية الهندسية وحزمة التقنيات](#3-المعمارية-الهندسية-وحزمة-التقنيات)
-  - [4. بروتوكول التشفير والتحقق الذكي (SSP Cipher)](#4-بروتوكول-التشفير-والتحقق-الذكي-ssp-cipher)
+  - [4. بروتوكول التحقق الأمني من الرموز](#4-بروتوكول-التحقق-الأمني-من-الرموز)
   - [5. الهيكل التنظيمي للملفات والمجلدات](#5-الهيكل-التنظيمي-للملفات-والمجلدات)
   - [6. دليل التثبيت والتشغيل المحلي](#6-دليل-التثبيت-والتشغيل-المحلي)
   - [7. إعدادات النشر على السحابة (Vercel والخوادم الخاصة)](#7-إعدادات-النشر-على-السحابة-vercel-والخوادم-الخاصة)
@@ -58,49 +58,41 @@
 
 ## 1. Executive Overview
 
-The **Knoz Certificate Verification Portal** is an ultra-fast, highly secure, standalone web application engineered for **Knoz Academy (أكاديمية كنوز)**. Its primary mission is to authenticate and present academic graduation credentials, course accomplishments, teacher credentials, and attendance logs for students who scan dynamic QR codes on physical or digital certificates.
+The **Knoz Certificate Verification Portal** is an ultra-fast, highly secure web application engineered for **Knoz Academy (أكاديمية كنوز)**. Its primary mission is to authenticate and present academic graduation credentials, course accomplishments, teacher credentials, and attendance records for students when dynamic QR codes on physical or digital certificates are scanned.
 
-Built upon **Angular 21** with a **Zoneless Signal-based architecture**, styled with **Tailwind CSS v4**, and backed by an isolated **Serverless / Reverse-Proxy Gateway**, the portal guarantees:
-- **Zero API Credential Exposure:** End users and client browsers never see internal tokens, base URLs, or credentials.
-- **Client-Side Anti-Tamper Verification:** An algorithmic cipher parser audits incoming verification links in less than 1 millisecond prior to dispatching any backend request.
+Built on **Angular 21** with a **Zoneless Signal-based architecture**, styled with **Tailwind CSS v4**, and backed by an isolated **Serverless / Reverse-Proxy Gateway**, the portal ensures:
+- **Zero API Credential Exposure:** End users and client browsers never see internal authentication tokens, remote server addresses, or database identifiers.
+- **Client-Side Anti-Tamper Verification:** A proprietary token validator audits incoming verification requests instantly before contacting the backend.
 - **Bilingual Fluidity:** Seamless, instantaneous switching between Arabic (RTL) and English (LTR) without page reloads.
-- **Visual Prestige:** A bespoke academic luxury aesthetic combining Emerald Green (`#0F392B`), Royal Gold (`#C8A559`), and warm cream accents with GPU-accelerated micro-animations.
+- **Visual Prestige:** An academic luxury aesthetic combining Emerald Green (`#0F392B`), Royal Gold (`#C8A559`), and warm cream tones with micro-animations.
 
 ---
 
-## 2. Key Features & Business Highlights
+## 2. Key Features & Security Highlights
 
-### 🛡️ 1. Cryptographic Link Validation (Anti-Tamper Layer)
-- Dynamic QR codes generated on certificates encode the student subscription plan ID (`SSP-ID`) into an alternating alphanumeric cipher (e.g., `B1A0G6D3H7`).
-- The application evaluates 7 structural constraints before hitting any server endpoint:
-  1. Mandatory Alpha lead (must not start with a digit).
-  2. Mandatory Num tail (must not end with a letter).
-  3. No adjacent letters (`Alpha + Alpha` disallowed).
-  4. No adjacent digits (`Num + Num` disallowed).
-  5. Exact even length (composed strictly of Alpha-Num pairs).
-  6. Character whitelist (A–J corresponding to digits 0–9).
-  7. Strict pair correspondence (`SSP_ALPHA_TO_DIGIT[A] === 0`).
-- Manipulated or fabricated URLs trigger an immediate, high-fidelity **"Not Valid Link"** defense screen with zero unnecessary network calls.
+### 🛡️ 1. Anti-Tamper Link Validation
+- URLs generated via QR codes carry encoded academic verification tokens.
+- The client engine validates token authenticity and structural integrity immediately upon navigation.
+- If a link has been altered, forged, or improperly constructed, the portal displays a dedicated **"Invalid Verification Link"** shield screen without generating unnecessary server load.
 
 ### 🔒 2. Zero-Leakage Secure Backend Proxy
-- The browser client only communicates with an internal endpoint: `/api/verify?sspId={id}`.
-- All outbound communication to the central academic management system (`knoz-api`) is encapsulated server-side:
-  - Automated OAuth/JWT authentication flow using secure credentials (`KNOZ_API_USERNAME`, `KNOZ_API_PASSWORD`).
-  - Bearer token acquisition, validation, and request proxying.
-  - Base URL configuration injected entirely via `KNOZ_API_BASE_URL` without exposing domain endpoints in public repositories or client network tabs.
+- The browser client connects only to the internal endpoint `/api/verify?sspId=...`.
+- All interactions with the central academic API are performed server-side:
+  - Token-based authentication using environment credentials.
+  - Complete abstraction of upstream endpoints, hostnames, and credentials.
+  - Safe error handling that never leaks server stack traces or internal network topology.
 
-### 🌐 3. Real-Time Localization & Internationalization (RTL / LTR)
-- Comprehensive in-memory dictionary covering all system notices, error states, labels, and badges in both **Arabic (العربية)** and **English**.
-- Real-time DOM attribute updates (`[dir]="rtl"` / `[dir]="ltr"`) and localized typography (Amiri for classical Arabic majesty and Tajawal for modern clarity).
-- Dynamic Arabic date, hour formatters (`ص / م` vs `AM / PM`), and localized day-of-week resolvers.
+### 🌐 3. Real-Time Localization (RTL / LTR)
+- Built-in dictionary covering all verification states, labels, and error notices in **Arabic** and **English**.
+- Automatic document direction switching (`dir="rtl"` / `dir="ltr"`).
+- Localized date formatting, 12-hour timetable scheduling (`ص / م` vs `AM / PM`), and Arabic day-name resolution.
 
 ### 📊 4. Bento-Box Academic Dashboard
-- **Golden Academic Seal:** Dynamic SVG seal with CSS stamp micro-interaction and continuous ambient golden pulse.
-- **Student Honoree Showcase:** Ultra-wide hero section with horizontal scroll safety for extended multi-part names.
-- **Curriculum Card:** Distinct visualization of Course Package, Study Plan, and Subject.
-- **Academic Mentorship Grid:** High-contrast instructor card with gold trim alongside supervisor/monitor accountability details.
-- **Metric Insights:** Compact badge displays for total completed sessions and individual session duration.
-- **Course Timeline & Class Pattern:** Connected start-to-end timeline with an interactive weekly schedule matrix.
+- **Official Golden Seal:** Dynamic animated seal reflecting verified status.
+- **Honoree Spotlight:** Dedicated display tailored for student full names with adaptive typography.
+- **Course & Academic Package:** Highlighting course title, specialization, and learning track.
+- **Faculty Accountability:** Dedicated instructor profile card alongside educational supervisor details.
+- **Curriculum Metrics:** Session counts, individual session duration, and connected calendar timeline.
 
 ---
 
@@ -111,8 +103,8 @@ Built upon **Angular 21** with a **Zoneless Signal-based architecture**, styled 
 |                                    CLIENT BROWSER                                       |
 |                                                                                         |
 |   +-----------------------+     +------------------------+     +--------------------+   |
-|   | Angular 21 Standalone | --> |   SSP Cipher Validator | --> | VerificationService|   |
-|   | Component & Signals   |     |  (Client-side 7 rules) |     |  (Fetch /api/verify)   |
+|   | Angular 21 Standalone | --> |   Token Integrity Check| --> | VerificationService|   |
+|   | Component & Signals   |     |  (Client-side Shield)  |     |  (Internal Proxy)  |   |
 |   +-----------------------+     +------------------------+     +--------------------+   |
 +---------------------------------------------------------------------------|-------------+
                                                                             |
@@ -124,56 +116,42 @@ Built upon **Angular 21** with a **Zoneless Signal-based architecture**, styled 
 |       +-------------------------------------------------------------------------+       |
 |       | api/verify.js (Vercel Function)  OR  server.js (Express Proxy)          |       |
 |       |                                                                         |       |
-|       | 1. Read process.env.KNOZ_API_BASE_URL, USERNAME, PASSWORD               |       |
-|       | 2. Post /api/Auth/login -> Exchange credentials for Bearer JWT          |       |
-|       | 3. Get /api/Monitor/Assigned-Student-Course-Details?SSPId={id}          |       |
-|       | 4. Sanitize and stream JSON payload back to Angular client              |       |
+|       | 1. Read environment variables (Base URL & service credentials)          |       |
+|       | 2. Authenticate securely with central academic services                 |       |
+|       | 3. Query certificate records for the requested identifier               |       |
+|       | 4. Return sanitized verification payload to Angular frontend            |       |
 |       +-------------------------------------------------------------------------+       |
 +-----------------------------------------------------------------------------------------+
                                             |
-                                            | HTTPS + Bearer JWT
+                                            | Private Secure Protocol
                                             v
 +-----------------------------------------------------------------------------------------+
-|                         UPSTREAM ACADEMY API (Remote Server)                            |
+|                         CENTRAL ACADEMIC SERVICE BACKEND                                |
 +-----------------------------------------------------------------------------------------+
 ```
 
 ### Technical Stack Matrix
 
-| Domain | Technology | Version | Purpose & Strategic Advantage |
+| Domain | Technology | Version | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Frontend Framework** | **Angular** | `21.2.0` | Latest generation standalone components, Zoneless change detection, Signal primitives. |
-| **Language & Typings** | **TypeScript** | `~5.9.2` | Strict null-checking, interface contracts, safe typed signals. |
-| **Styling Engine** | **Tailwind CSS** | `^4.1.12` | High-performance CSS compilation via `@tailwindcss/postcss`, theme custom properties. |
-| **Iconography & Fonts** | **FontAwesome Free** | `^7.3.1` | Vector icons paired with Google Webfonts (`Amiri` and `Tajawal`). |
-| **Backend & Proxy** | **Express / Node** | `5.2.1` / `20+` | Full-stack server runner and native environment file loader (`process.loadEnvFile`). |
-| **Serverless Runtime** | **Vercel Functions** | ES Modules | Edge-ready serverless function executing at `/api/verify.js`. |
-| **Build Pipeline** | **Angular Build CLI** | `^21.2.9` | High-speed Vite-powered development server and optimized AOT production bundler. |
+| **Frontend Framework** | **Angular** | `21.2.0` | Standalone components, Zoneless change detection, Signals. |
+| **Language & Typings** | **TypeScript** | `~5.9.2` | Strict mode typing for reliable execution. |
+| **Styling Engine** | **Tailwind CSS** | `^4.1.12` | Modern styling via `@tailwindcss/postcss`. |
+| **Iconography & Fonts** | **FontAwesome + Google Fonts** | `^7.3.1` | Web typography (`Amiri` and `Tajawal`) and vector icons. |
+| **Server Runtime** | **Node.js / Express** | `20+` / `5.2.1` | Application serving and internal proxy endpoint. |
+| **Serverless Engine** | **Vercel Functions** | ES Modules | Edge-ready serverless execution for `/api/verify`. |
 
 ---
 
-## 4. The SSP Cipher Protocol
+## 4. Proprietary Verification Token Protocol
 
-To eliminate plain database IDs in QR codes and printed materials, the platform implements a bi-directional substitution-pair cipher:
+To ensure academic certificates cannot be easily enumerated or guessed:
 
-### Cipher Dictionary
-| Digit | `0` | `1` | `2` | `3` | `4` | `5` | `6` | `7` | `8` | `9` |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Cipher Alpha** | **`A`** | **`B`** | **`C`** | **`D`** | **`E`** | **`F`** | **`G`** | **`H`** | **`I`** | **`J`** |
+- **Tokenized Identifiers:** QR codes do not expose plain database IDs; they contain an encoded verification token.
+- **Client Integrity Validation:** The application performs preliminary cryptographic integrity checks before contacting the server.
+- **Tamper Protection:** If an invalid or modified token is detected, the request is halted immediately at the browser level, safeguarding upstream infrastructure against automated fuzzing.
 
-### Encoding Example
-- Student Database Plan ID: `10637`
-- Formatted Pairs: `1 -> B1`, `0 -> A0`, `6 -> G6`, `3 -> D3`, `7 -> H7`
-- Encoded Verification Code: `B1A0G6D3H7`
-
-### Decoding & Enforcement Pipeline (`src/app/core/utils/ssp-cipher.ts`)
-```typescript
-const result = validateAndDecodeSspId('B1A0G6D3H7');
-// Output: { isValid: true, numericId: "10637" }
-
-const tamperedResult = validateAndDecodeSspId('1B0A6GD3H7');
-// Output: { isValid: false, numericId: null, errorReason: "START_WITH_NUM" }
-```
+*(Note: For security reasons, the underlying token algorithms and internal dictionary structures are proprietary and intentionally omitted from public documentation.)*
 
 ---
 
@@ -182,38 +160,38 @@ const tamperedResult = validateAndDecodeSspId('1B0A6GD3H7');
 ```
 knoz-verification/
 ├── api/
-│   └── verify.js                     # Vercel Serverless Function (secure external API gateway)
+│   └── verify.js                     # Secure backend proxy handler (Vercel Serverless Function)
 ├── public/
 │   └── favicon.ico                   # Application browser favicon
 ├── src/
 │   ├── app/
 │   │   ├── core/
 │   │   │   ├── mock/
-│   │   │   │   └── dictionary.ts     # Bilingual localization dictionary (AR / EN)
+│   │   │   │   └── dictionary.ts     # Bilingual dictionary (Arabic / English)
 │   │   │   ├── services/
-│   │   │   │   └── verification.service.ts # Client verification HTTP dispatcher
+│   │   │   │   └── verification.service.ts # Frontend HTTP verification service
 │   │   │   └── utils/
-│   │   │       └── ssp-cipher.ts     # Cryptographic validation & decoder engine
+│   │   │       └── ssp-cipher.ts     # Client-side verification token validation logic
 │   │   ├── features/
 │   │   │   └── certificate-verification/
-│   │   │       ├── certificate-verification.html # Bento-grid UI template & animations
-│   │   │       └── certificate-verification.ts   # Signal-based view model & state
-│   │   ├── app.config.ts             # Application-level providers (router, hydration)
-│   │   ├── app.html                  # Minimal root outlet container
-│   │   ├── app.routes.ts             # Route definitions with dynamic /:sspId mapping
-│   │   └── app.ts                    # Root Standalone Component
+│   │   │       ├── certificate-verification.html # Academic verification dashboard template
+│   │   │       └── certificate-verification.ts   # Component view model and state management
+│   │   ├── app.config.ts             # Application configuration and routing providers
+│   │   ├── app.html                  # Root template container
+│   │   ├── app.routes.ts             # Application routes (supports dynamic verification links)
+│   │   └── app.ts                    # Root standalone component
 │   ├── assets/
-│   │   └── logo.jpeg                 # Official Knoz Academy golden brand logo
-│   ├── index.html                    # HTML shell, Google Fonts, OpenGraph metadata
-│   ├── main.ts                       # Zoneless application bootstrapper
-│   └── styles.css                    # Tailwind CSS v4 imports and custom theme variables
-├── .env.example                      # Template for environment variables (clean of secrets)
-├── .gitignore                        # Git exclusion rules (.env, node_modules, dist)
-├── angular.json                      # Angular workspace and build configurations
-├── package.json                      # Dependency manifests and execution scripts
-├── server.js                         # Production Express server with static serving & proxy
-├── tsconfig.app.json                 # Client TypeScript compiler options
-└── tsconfig.json                     # Root TypeScript configuration
+│   │   └── logo.jpeg                 # Official Knoz Academy brand logo
+│   ├── index.html                    # Application HTML shell and font links
+│   ├── main.ts                       # Application entry point (Zoneless)
+│   └── styles.css                    # Tailwind CSS imports and theme configuration
+├── .env.example                      # Template for required environment variables (no secrets)
+├── .gitignore                        # Git ignore rules protecting .env and build files
+├── angular.json                      # Angular workspace configuration
+├── package.json                      # Project dependencies and npm scripts
+├── server.js                         # Production Express server with proxy and static serving
+├── tsconfig.app.json                 # TypeScript compiler options for the application
+└── tsconfig.json                     # Base TypeScript configuration
 ```
 
 ---
@@ -222,7 +200,7 @@ knoz-verification/
 
 ### Prerequisites
 - **Node.js**: `v20.12.0` or higher
-- **Package Manager**: `npm` (`v10+`)
+- **npm**: `v10+`
 - **Git**
 
 ### Installation Steps
@@ -239,30 +217,24 @@ knoz-verification/
    ```
 
 3. **Configure Environment Variables:**
-   Copy the example environment template into a local `.env` file:
+   Create a local `.env` file based on the example template:
    ```bash
    cp .env.example .env
    ```
-   Open `.env` and provide your credentials:
+   Fill in your service configuration securely in `.env`:
    ```env
-   KNOZ_API_BASE_URL=https://knoz-api.knoz.online
-   KNOZ_API_USERNAME=your_authorized_username
-   KNOZ_API_PASSWORD=your_authorized_password
+   KNOZ_API_BASE_URL=https://your-api-domain.example.com
+   KNOZ_API_USERNAME=your_service_username
+   KNOZ_API_PASSWORD=your_service_password
    ```
 
-4. **Launch the Development Server:**
+4. **Start Development Server:**
    ```bash
    npm run dev
    ```
-   The application builds the client bundle and serves the backend proxy on:
+   The portal will compile and start on:
    ```
    http://localhost:3000
-   ```
-
-5. **Test a Sample Verification Link:**
-   Open your browser and navigate to:
-   ```
-   http://localhost:3000/B1A0G6D3H7
    ```
 
 ---
@@ -271,60 +243,48 @@ knoz-verification/
 
 ### Deployment Option A: Vercel (Recommended)
 
-The project includes built-in Vercel serverless integration in `/api/verify.js`.
+1. Push your repository to **GitHub**.
+2. Go to **[Vercel](https://vercel.com)** and import the project repository.
+3. In **Project Settings > Environment Variables**, add:
+   - `KNOZ_API_BASE_URL`: Your backend API base URL
+   - `KNOZ_API_USERNAME`: Your authorized service username
+   - `KNOZ_API_PASSWORD`: Your authorized service password
+4. Click **Deploy**. Vercel will handle the build automatically.
 
-1. Push your repository to **GitHub / GitLab / Bitbucket**.
-2. Sign in to [Vercel](https://vercel.com) and click **"Add New Project"**.
-3. Import the repository.
-4. In the **Environment Variables** panel, define:
-   - `KNOZ_API_BASE_URL` = `https://knoz-api.knoz.online`
-   - `KNOZ_API_USERNAME` = `your_username`
-   - `KNOZ_API_PASSWORD` = `your_password`
-5. Click **Deploy**. Vercel will automatically build the Angular application and route `/api/verify` requests to the serverless function.
-
-### Deployment Option B: Self-Hosted Node.js / Docker
-
-To run on a dedicated Linux VPS or container:
+### Deployment Option B: Self-Hosted Node.js Server
 
 ```bash
-# 1. Build the Angular production bundle
+# 1. Build production assets
 npm run build
 
-# 2. Run the production Express server
+# 2. Start the Express server
 npm start
 ```
-The Express server in `server.js` automatically binds to `0.0.0.0:3000`, serves the compiled Angular files from `dist/knoz-verification/browser`, and serves the live `/api/verify` proxy.
+The server will run on port `3000` (or the configured `PORT`), securely serving the Angular build and handling `/api/verify` requests.
 
 ---
 
 ## 8. Engineering Best Practices & Standards
 
-- **Zoneless Signal Reactivity:** Completely free from `zone.js` overhead; relies on Angular `signal()`, `computed()`, and native microtasks.
-- **Strict Separation of Concerns:** Business logic resides in `core/services/` and `core/utils/`, completely decoupling UI view components from HTTP transports.
-- **Zero Secrets in Git:** Sensitive environment variables are strictly blocked via `.gitignore` with wildcard patterns (`.env*`).
-- **Defensive API Calls:** Safe parameter decoding, trailing-slash normalization via `.replace(/\/+$/, '')`, and robust HTTP status error code propagation.
+- **Zero-Secret Commitment:** All API endpoints and credentials remain strictly on the server and are excluded from source control.
+- **Zoneless Signal Reactivity:** High performance and minimal bundle footprint by leveraging Angular 21 native Signals.
+- **Client-Side Defense:** Early rejection of malformed tokens saves server bandwidth and compute resources.
 
 ---
 
 ## 9. Product Roadmap
 
-- [ ] **Direct PDF Certificate Export:** One-click vectorized PDF generation with printable print media stylesheets (`@media print`).
-- [ ] **Web Share API Integration:** Native mobile OS share sheet integration for instant WhatsApp and Telegram verification link sharing.
-- [ ] **Admin QR Generator Tooling:** An internal authenticated screen for academic staff to input numeric IDs and generate downloadable high-res QR codes.
-- [ ] **Progressive Web App (PWA) Offline Shell:** Service Worker caching for repeated certificate verifications in low-connectivity areas.
+- [ ] One-click PDF download for verified credentials.
+- [ ] Native mobile sharing via Web Share API.
+- [ ] Offline PWA caching for authenticated certificates.
 
 ---
 
 ## 10. Contributing & License
 
-Contributions are welcome! Please adhere to the following workflow:
-1. Fork the project.
-2. Create a feature branch (`git checkout -b feature/credential-enhancement`).
-3. Commit your changes following [Conventional Commits](https://www.conventionalcommits.org/) (`git commit -m 'feat: add qr export utility'`).
-4. Push to the branch (`git push origin feature/credential-enhancement`).
-5. Open a Pull Request.
+Contributions are welcome via standard Pull Requests. Please ensure clean commit messages.
 
-**License:** This project is licensed under the **MIT License**. Copyright &copy; Knoz Academy.
+**License:** Licensed under the **MIT License**. Copyright &copy; Knoz Academy.
 
 ---
 ---
@@ -338,32 +298,24 @@ Contributions are welcome! Please adhere to the following workflow:
 تم بناء البوابة بالاعتماد على أحدث إصدارات إطار العمل **Angular 21** بنظام **الإشارات التفاعلية (Signals)** الخالي تماماً من مكتبة Zone.js التقليدية (**Zoneless Architecture**)، مع واجهة بصرية مصممة بأحدث معايير **Tailwind CSS v4**، وخادم وسيط آمن لحماية البيانات الحساسة (**Reverse Proxy Gateway**).
 
 ### ركائز المنظومة:
-- **حماية تامة للبيانات والاعتمادات:** عدم كشف أي مفاتيح سرية، أو رموز مصادقة (Tokens)، أو روابط خوادم داخلية للمتصفح أو في مستودع الكود.
-- **فحص ذكي للروابط على طرف العميل:** خوارزمية تشفير خاصة تفحص رابط التحقق في أقل من جزء من الثانية لمنع التلاعب وتوفير موارد السيرفر.
+- **حماية تامة للبيانات والاعتمادات:** عدم كشف أي مفاتيح سرية، أو روابط خوادم داخلية، أو معرفات قواعد البيانات للمتصفح أو في مستودع الكود العام.
+- **فحص أمني للروابط على طرف العميل:** فحص ذاتي للرابط قبل إجراء أي اتصال بالسيرفر لمنع التلاعب وحماية الخوادم من الاستعلامات العشوائية.
 - **دعم كامل للغتين (العربية والإنجليزية):** تجربة مستخدم فورية تتبدل بين واجهة RTL و LTR بضغطة زر وبدون إعادة تحميل الصفحة.
 - **هوية بصرية أكاديمية فاخرة:** تصميم راقٍ يجمع بين اللون الأخضر الملكي للأكاديمية (`#0F392B`) والذهب الأنيق (`#C8A559`)، مع ختم ذهبي تفاعلي وتنسيق بطاقات بينتو الحديثة (Bento-Box).
 
 ---
 
-## 2. الميزات الرئيسية والقيمة التشغيلية
+## 2. الميزات الرئيسية والأمان المؤسسي
 
-### 🛡️ 1. التحقق من الشفرة ومقاومة التلاعب (Anti-Tamper Layer)
-- يتم تشفير معرف اشتراك الطالب (`SSP-ID`) في كود الشهادة إلى شفرة أبجدية رقمية متناوبة (مثل: `B1A0G6D3H7`).
-- تطبق الواجهة **7 قواعد تحقق صارمة** قبل إجراء أي اتصال بالسيرفر:
-  1. يجب أن يبدأ الكود بحرف، وليس برقم.
-  2. يجب أن ينتهي الكود برقم، وليس بحرف.
-  3. منع تتالي حرفين أبجديين (`Alpha + Alpha`).
-  4. منع تتالي رقمين (`Num + Num`).
-  5. يجب أن يكون طول الكود زوجياً تماماً (أزواج مكونة من حرف ورقم).
-  6. الحروف مقيدة بالقاموس المعتمد فقط من `A` إلى `J` والمقابلة للأرقام من `0` إلى `9`.
-  7. تطابق الزوج الصارم (الحرف يجب أن يطابق الرقم بدقة وفق القاموس).
-- في حال إدخال رمز غير صالح أو محاولة التلاعب بالرابط، تظهر فوراً شاشة حماية مخصصة **"رابط غير صالح / Not Valid Link"** دون استهلاك أي طلبات شبكة خارجية.
+### 🛡️ 1. الحماية الاستباقية من الروابط التالفة أو المعدلة
+- روابط الـ QR تحتوي على رموز توثيق معتمدة تحمي المعرفات الحقيقية من الظهور المباشر.
+- تفحص الواجهة سلامة هيكل الرابط فور فتحه؛ وإذا كان الرابط غير صالح أو تم التلاعب برموزه، تظهر للمستخدم فوراً صفحة حماية مخصصة **"رابط غير صالح"** دون استهلاك أي موارد من الخادم.
 
 ### 🔒 2. معمارية الخادم الوسيط والحماية القصوى (Zero-Leakage Proxy)
-- المتصفح يتواصل فقط مع مسار داخلي `/api/verify?sspId={id}`.
-- يتولى السيرفر في الخلفية إجراء عملية تسجيل الدخول والحصول على رمز المصادقة (Bearer Token) وجلب تفاصيل الكورس:
-  - الاعتماد الكامل على المتغيرات البيئية `KNOZ_API_BASE_URL` و `KNOZ_API_USERNAME` و `KNOZ_API_PASSWORD`.
-  - لا يمكن لأي مستخدم من خلال فحص المتصفح (Inspect / Network Tab) معرفة اسم الخادم الأساسي أو بيانات الحساب المسؤولة عن الجلب.
+- يتواصل المتصفح حصراً مع مسار داخلي `/api/verify?sspId=...`.
+- يتولى السيرفر في الخلفية إجراء عملية الاتصال بالأنظمة الأكاديمية وجلب بيانات الشهادة:
+  - إدارة الاتصال عبر متغيرات البيئة السرية (`KNOZ_API_BASE_URL` و `KNOZ_API_USERNAME` و `KNOZ_API_PASSWORD`).
+  - عزل الروابط الحقيقية للخوادم والواجهات البرمجية عن شبكة المتصفح تماماً.
 
 ### 🌐 3. محرك الترجمة الفورية وثنائية اللغة
 - قاموس نصوص داخلي متكامل يدعم اللغتين العربية والإنجليزية.
@@ -371,12 +323,11 @@ Contributions are welcome! Please adhere to the following workflow:
 - مواءمة كاملة لصيغ التواريخ ومواعيد الحصص وأسماء الأيام وتنسيق الوقت بصيغة 12 ساعة (`ص / م` للعربية و `AM / PM` للإنجليزية).
 
 ### 📊 4. لوحة تفاصيل أكاديمية متكاملة (Bento-Box Grid)
-- **الختم الأكاديمي الذهبي:** حركة دخول تفاعلية ثلاثية الأبعاد تحاكي ختم الاعتماد الرسمي مع نبض إشعاعي ذهبي مستمر.
-- **بطاقة اسم الطالب المكرّم:** مساحة عريضة مجهزة للتكيف التلقائي مع الأسماء الطويلة والمركبة دون تشويه التصميم.
-- **تفاصيل الدورة والمادة:** عرض منفصل لاسم الباقة الدراسية والمادة التخصصية مع أيقونات توضيحية.
-- **بطاقات الكادر التعليمي:** بطاقة مميزة للمعلم/المعلمة مع خلفية خضراء داكنة وتأثيرات ضوئية، وبطاقة مخصصة لمشرف/مشرفة المسار.
-- **مؤشرات الحصص والمدة:** شريط مدمج يوضح عدد الحصص الكلي ومدة الحصة بالدقائق.
-- **الجدول الأسبوعي ومسار التاريخ:** خط زمني يربط بين تاريخ البداية والنهاية وشبكة بمواعيد الحصص خلال الأسبوع.
+- **الختم الأكاديمي الذهبي:** حركة دخول تفاعلية تحاكي ختم الاعتماد الرسمي مع تأثير نبض ذهبي.
+- **بطاقة اسم الطالب المكرّم:** مساحة عريضة تتكيف تلقائياً مع الأسماء الطويلة والمركبة.
+- **تفاصيل الدورة والمادة:** عرض اسم الباقة الدراسية والمادة التخصصية مع أيقونات توضيحية.
+- **بطاقات الكادر التعليمي:** بطاقة مميزة للمعلم/المعلمة مع بطاقة مخصصة لمشرف/مشرفة المسار.
+- **مؤشرات الحصص والمدة:** شريط يوضح عدد الحصص الكلي ومدة الحصة بالدقائق مع خط زمني للدورة.
 
 ---
 
@@ -386,30 +337,24 @@ Contributions are welcome! Please adhere to the following workflow:
 
 | المجال | التقنية المستخدمة | الإصدار | الوظيفة والدور الهندسي |
 | :--- | :--- | :--- | :--- |
-| **إطار عمل الواجهة** | **Angular** | `21.2.0` | مكونات مستقلة (Standalone)، نظام كشف التغيير بدون Zone.js، الإشارات (Signals). |
-| **لغة البرمجة** | **TypeScript** | `~5.9.2` | فحص صارم للأنماط وتأمين كود خالي من الأخطاء التشغيلية. |
-| **محرك التنسيق** | **Tailwind CSS** | `^4.1.12` | أحدث جيل من تيلويند باستخدام محرك PostCSS وتطبيق متغيرات الألوان المؤسسية. |
-| **الأيقونات والخطوط** | **FontAwesome + Google Fonts** | `^7.3.1` | حزمة أيقونات متجهة مع خطوط عربية فاخرة (خط **الأميري** للعناوين و**تجوّل** للنصوص). |
-| **خادم التطوير والإنتاج** | **Express.js / Node.js** | `5.2.1` / `20+` | خادم Full-Stack يدعم استضافة التطبيق كصفحة أحادية وتوفير مسار الـ Proxy. |
-| **الدوال السحابية** | **Vercel Serverless** | ES Modules | تشغيل الدالة الخلفية `/api/verify.js` سحابياً بكفاءة عالية على منصة Vercel. |
+| **إطار عمل الواجهة** | **Angular** | `21.2.0` | مكونات مستقلة (Standalone)، إدارة الحالة عبر الإشارات (Signals)، كشف تغيير سريع بدون Zone.js. |
+| **لغة البرمجة** | **TypeScript** | `~5.9.2` | نمط برمجي صارم وخالٍ من الأخطاء التشغيلية. |
+| **محرك التنسيق** | **Tailwind CSS** | `^4.1.12` | أحدث جيل من تيلويند باستخدام محرك PostCSS وتطبيق متغيرات ألوان الأكاديمية. |
+| **الأيقونات والخطوط** | **FontAwesome + Google Fonts** | `^7.3.1` | خطوط عربية متميزة (خط **الأميري** للعناوين و**تجوّل** للنصوص). |
+| **خادم التطوير والإنتاج** | **Express.js / Node.js** | `5.2.1` / `20+` | خادم Full-Stack لاستضافة التطبيق وتوفير مسار الـ Proxy الآمن. |
+| **الدوال السحابية** | **Vercel Serverless** | ES Modules | تشغيل دالة التحقق الخلفية سحابياً عبر `/api/verify.js`. |
 
 ---
 
-## 4. بروتوكول التشفير والتحقق الذكي (SSP Cipher)
+## 4. بروتوكول التحقق الأمني من الرموز
 
-لحماية أرقام الاشتراكات وقواعد البيانات من التخمين العشوائي على روابط الـ QR، يتم تمثيل الأرقام في أزواج مشفرة:
+لضمان سلامة الشهادات الأكاديمية وعدم إمكانية تخمين أرقامها أو التلاعب بها:
 
-### قاموس المطابقة (Dictionary Mapping)
-| الرقم | `0` | `1` | `2` | `3` | `4` | `5` | `6` | `7` | `8` | `9` |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **الحرف المشفر** | **`A`** | **`B`** | **`C`** | **`D`** | **`E`** | **`F`** | **`G`** | **`H`** | **`I`** | **`J`** |
+- **رموز التحقق المشفرة:** روابط الشهادات لا تتضمن أرقام السجلات المباشرة، بل تعتمد على رموز مشفرة لحماية الخصوصية.
+- **الفحص الهيكلي السريع:** يقوم التطبيق بالتأكد من صحة الرمز أمنياً قبل مخاطبة السيرفر.
+- **مقاومة التخمين العشوائي:** أي رمز غير متطابق مع معايير الأكاديمية يتم رفضه فوراً من المتصفح لحماية السيرفر من المحاولات العشوائية.
 
-### مثال عملي:
-- رقم خطة الطالب الفعلي: `10637`
-- تحويل الأرقام إلى أزواج متناوبة: `1 -> B1`، `0 -> A0`، `6 -> G6`، `3 -> D3`، `7 -> H7`
-- الرمز الناتج النهائي على الرابط: `B1A0G6D3H7`
-
-تقوم دالة `validateAndDecodeSspId` في مسار `src/app/core/utils/ssp-cipher.ts` بفحص الرمز واستخراج الرقم الحقيقي وإرساله للواجهة الخلفية بأمان.
+*(ملاحظة أمنية: يتم الاحتفاظ بتفاصيل الخوارزمية الداخلية وقواعد التشفير الخاصة بالنظام بشكل سري وغير معلن لحماية خصوصية وأمان الشهادات).*
 
 ---
 
@@ -418,7 +363,7 @@ Contributions are welcome! Please adhere to the following workflow:
 ```
 knoz-verification/
 ├── api/
-│   └── verify.js                     # دالة Vercel Serverless الخلفية لاستدعاء الـ API الخارجي بأمان
+│   └── verify.js                     # دالة Vercel Serverless الخلفية لتأمين الاتصال بالـ API
 ├── public/
 │   └── favicon.ico                   # أيقونة الموقع للمتصفح
 ├── src/
@@ -427,28 +372,28 @@ knoz-verification/
 │   │   │   ├── mock/
 │   │   │   │   └── dictionary.ts     # قاموس النصوص للغتين العربية والإنجليزية
 │   │   │   ├── services/
-│   │   │   │   └── verification.service.ts # خدمة استدعاء نقطة التحقق البرمجية
+│   │   │   │   └── verification.service.ts # خدمة الاتصال البرمجية للواجهة
 │   │   │   └── utils/
-│   │   │       └── ssp-cipher.ts     # خوارزمية فك تشفير وفحص كود الشهادة
+│   │   │       └── ssp-cipher.ts     # منطق فحص سلامة رمز التحقق
 │   │   ├── features/
 │   │   │   └── certificate-verification/
 │   │   │       ├── certificate-verification.html # قالب الواجهة وبطاقات التفاصيل والختم الذهبي
-│   │   │       └── certificate-verification.ts   # منطق المكون وإدارة الحالة التفاعلية (Signals)
-│   │   ├── app.config.ts             # إعدادات التطبيق وتوفير التوجيه (Router Providers)
-│   │   ├── app.html                  # حاوية التوجيه الجذرية (<router-outlet>)
-│   │   ├── app.routes.ts             # مسارات التوجيه ومطابقة الرابط الديناميكي /:sspId
+│   │   │       └── certificate-verification.ts   # إدارة الحالة التفاعلية للمكون (Signals)
+│   │   ├── app.config.ts             # إعدادات التطبيق وتوفير مسارات التوجيه
+│   │   ├── app.html                  # حاوية التوجيه الجذرية
+│   │   ├── app.routes.ts             # مسارات التوجيه للشهادات
 │   │   └── app.ts                    # المكون الرئيسي للتطبيق
 │   ├── assets/
 │   │   └── logo.jpeg                 # الشعار الرسمي المعتمد لأكاديمية كنوز
-│   ├── index.html                    # ملف الـ HTML الرئيسي مع خطوط جوجل والوسوم الوصفية
+│   ├── index.html                    # ملف الـ HTML الرئيسي مع خطوط جوجل
 │   ├── main.ts                       # نقطة انطلاق التطبيق بدون Zone.js
-│   └── styles.css                    # استيراد Tailwind CSS والمتغيرات اللونية الخاصة لكنوز
-├── .env.example                      # نموذج توضيحي للمتغيرات البيئية خالٍ من الأسرار
-├── .gitignore                        # استبعاد ملفات البيئة والحزم البرمجية من الرفع لـ Git
-├── angular.json                      # إعدادات بيئة عمل وبناء Angular
+│   └── styles.css                    # إعدادات Tailwind CSS والمتغيرات اللونية الخاصة
+├── .env.example                      # نموذج للمتغيرات البيئية خالٍ من الأسرار
+├── .gitignore                        # استبعاد ملفات البيئة من الرفع لـ Git
+├── angular.json                      # إعدادات بناء Angular
 ├── package.json                      # الحزم والتبعيات والأوامر البرمجية
 ├── server.js                         # سيرفر Express للتشغيل المحلي والإنتاج
-├── tsconfig.app.json                 # إعدادات مترجم TypeScript لتطبيق العميل
+├── tsconfig.app.json                 # إعدادات TypeScript للواجهة
 └── tsconfig.json                     # إعدادات TypeScript العامة
 ```
 
@@ -457,11 +402,11 @@ knoz-verification/
 ## 6. دليل التثبيت والتشغيل المحلي
 
 ### المتطلبات الأساسية
-- تثبيت بيئة **Node.js** بإصدار `20.12.0` أو أحدث.
+- بيئة **Node.js** بإصدار `20.12.0` أو أحدث.
 - مدير الحزم **npm** بإصدار `10+`.
 - أداة **Git**.
 
-### خطوات التثبيت والتشغيل:
+### خطوات التشغيل:
 
 1. **استنساخ المستودع (Clone):**
    ```bash
@@ -475,13 +420,13 @@ knoz-verification/
    ```
 
 3. **إعداد المتغيرات البيئية:**
-   قومي بنسخ ملف النموذج إلى ملف `.env` محلي:
+   انسخي ملف النموذج إلى ملف `.env`:
    ```bash
    cp .env.example .env
    ```
-   ثم افتحي ملف `.env` وضعي القيم الحقيقية:
+   ثم ضعي بيانات الربط الخاصة بك في ملف `.env`:
    ```env
-   KNOZ_API_BASE_URL=https://knoz-api.knoz.online
+   KNOZ_API_BASE_URL=https://your-api-domain.example.com
    KNOZ_API_USERNAME=your_username_here
    KNOZ_API_PASSWORD=your_password_here
    ```
@@ -490,15 +435,9 @@ knoz-verification/
    ```bash
    npm run dev
    ```
-   سيقوم الأمر ببناء ملفات التطبيق وتشغيل الخادم المحلي على الرابط:
+   سيعمل التطبيق محلياً على:
    ```
    http://localhost:3000
-   ```
-
-5. **تجربة رابط شهادة حقيقي أو تجريبي:**
-   افتحي المتصفح وانتقلي إلى:
-   ```
-   http://localhost:3000/B1A0G6D3H7
    ```
 
 ---
@@ -507,56 +446,41 @@ knoz-verification/
 
 ### الخيار الأول: النشر عبر Vercel (موصى به)
 
-المشروع مهيأ بالكامل للعمل فوراً على منصة Vercel عبر مسار الدوال السحابية `api/verify.js`:
-
-1. ارفعي الكود إلى حسابك على **GitHub**.
-2. سجلي الدخول إلى منصة **[Vercel](https://vercel.com)** واضغطي **Add New Project**.
-3. اختاري مستودع المشروع واضغطي **Import**.
-4. من قسم **Environment Variables** (المتغيرات البيئية)، أضيفي المتغيرات التالية:
-   - **`KNOZ_API_BASE_URL`**: الرابط الأساسي للـ API (`https://knoz-api.knoz.online`).
-   - **`KNOZ_API_USERNAME`**: اسم المستخدم الخاص بالربط.
-   - **`KNOZ_API_PASSWORD`**: كلمة المرور الخاصة بالربط.
-5. اضغطي **Deploy**. ستتولى منصة Vercel بناء التطبيق تلقائياً وتفعيل مسار التحقق السحابي.
+1. ارفعي الكود إلى مستودعك على **GitHub**.
+2. توجهي إلى **[Vercel](https://vercel.com)** واضغطي **Add New Project**.
+3. في قسم **Environment Variables** (المتغيرات البيئية)، أضيفي:
+   - **`KNOZ_API_BASE_URL`**: الرابط الأساسي للخدمة
+   - **`KNOZ_API_USERNAME`**: اسم المستخدم المعتمد
+   - **`KNOZ_API_PASSWORD`**: كلمة المرور المعتمدة
+4. اضغطي **Deploy**. ستتولى منصة Vercel بناء التطبيق وتفعيل الدالة السحابية تلقائياً.
 
 ### الخيار الثاني: النشر على سيرفر خاص (VPS / Docker)
-
-إذا أردتِ تشغيل المشروع على خادم خاص أو عبر Docker:
 
 ```bash
 # بناء نسخة الإنتاج
 npm run build
 
-# تشغيل سيرفر الإنتاج
+# تشغيل السيرفر
 npm start
 ```
-يقوم سيرفر `server.js` بالاستماع على المنفذ `3000` وخدمة الملفات الثابتة المبنية داخل مجلد `dist/` بالإضافة إلى توفير مسار الـ `/api/verify` المحمي.
 
 ---
 
 ## 8. معايير التطوير وجودة الكود
 
-- **الاعتماد الكلي على Signals:** تفادي أي استخدام لـ `ngModel` أو مكتبات المراقبة الثقيلة، واستخدام `computed` لحساب النصوص واللغات ديناميكياً.
-- **التصميم المتجاوب (Mobile First):** الواجهة مهيأة للعمل بانسيابية تامة على كافة أحجام الشاشات (الهواتف الذكية، الأجهزة اللوحية، والشاشات العريضة).
-- **أمان السجلات (Zero Leakage):** ملف `.env` مستبعد تماماً في `.gitignore` لمنع تسريب بيانات الاعتماد إلى GitHub نهائياً.
+- **حماية الأسرار:** لا يتم تضمين أي مفاتيح أو روابط حقيقية في الكود المصدري نهائياً.
+- **الأداء الفائق:** استغناء كامل عن المكتبات الثقيلة والاعتماد على Angular Signals و Tailwind CSS v4.
 
 ---
 
 ## 9. خارطة الطريق والتطوير المستقبلي
 
-- [ ] **تصدير الشهادة المباشر كملف PDF:** إضافة زر لتحميل نسخة رقمية موثقة من تفاصيل الاعتماد بنقرة واحدة.
-- [ ] **المشاركة المباشرة عبر تطبيقات التواصل:** دعم واجهة `navigator.share` لمشاركة رابط التوثيق عبر واتساب وتيليجرام مباشرة من الهاتف.
-- [ ] **لوحة تحكم إدارية لتوليد الـ QR:** شاشة مخصصة لإدارة الأكاديمية لإدخال أرقام الطلاب والحصول على الباركود والشفرة فورياً للطباعة.
-- [ ] **دعم العمل دون اتصال (PWA):** تفعيل تخزين الكاش للشهادات المفتوحة مسبقاً في حال انقطاع الاتصال بالإنترنت.
+- [ ] دعم تصدير الشهادة كملف PDF موثق.
+- [ ] المشاركة المباشرة عبر تطبيقات التواصل بالهاتف.
+- [ ] دعم التخزين المؤقت في حال انقطاع الاتصال (PWA).
 
 ---
 
 ## 10. المساهمة والترخيص
 
-نرحب بأي تحسينات ومقترحات برمجية! للمساهمة:
-1. أنشئي تفرعاً من المستودع (Fork).
-2. أنشئي فرعاً لميزتك (`git checkout -b feature/new-verification-tool`).
-3. سجلي التعديلات وفق معايير الرسائل الواضحة (`git commit -m 'feat: improve verification resilience'`).
-4. ارفعي الفرع (`git push origin feature/new-verification-tool`).
-5. افتحي طلب دمج (Pull Request).
-
-**الترخيص:** هذا المشروع مرخص تحت رخصة **MIT**. جميع الحقوق محفوظة &copy; أكاديمية كنوز.
+المشروع مرخص تحت رخصة **MIT**. جميع الحقوق محفوظة &copy; أكاديمية كنوز.
