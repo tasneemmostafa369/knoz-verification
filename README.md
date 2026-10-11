@@ -1,12 +1,10 @@
-# Knoz Certificate Verification Portal
+# Academic Certificate Verification Portal
 
 <div align="center">
 
-  <img src="public/assets/logo.jpeg" alt="Knoz Academy Logo" width="120" height="120" style="border-radius: 50%; border: 3px solid #C8A559; margin-bottom: 16px;" />
+  <h1>🎓 Academic Certificate Verification Portal<br/><span>بوابة التحقق الإلكتروني من الشهادات الأكاديمية</span></h1>
 
-  <h1>Knoz Certificate Verification Portal<br/><span>بوابة التحقق الإلكتروني من الشهادات — أكاديمية كنوز</span></h1>
-
-  <p><strong>Enterprise-Grade, Secure, Real-Time Academic Credential & Certificate Verification Engine</strong></p>
+  <p><strong>Enterprise-Grade, White-Label, Real-Time Credential & Certificate Verification Engine for Educational Institutions</strong></p>
 
   <p>
     <a href="#-part-1-english-documentation">English Documentation</a> &nbsp;•&nbsp;
@@ -17,6 +15,7 @@
     <img src="https://img.shields.io/badge/Angular-21.2-DD0031?style=for-the-badge&logo=angular&logoColor=white" alt="Angular 21" />
     <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
     <img src="https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/White--Label-Ready-1E3A8A?style=for-the-badge" alt="White-Label Ready" />
     <img src="https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
     <img src="https://img.shields.io/badge/Vercel-Serverless-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
     <img src="https://img.shields.io/badge/Architecture-Zoneless_Signals-0F392B?style=for-the-badge" alt="Zoneless Signals" />
@@ -29,34 +28,80 @@
 
 ## 📑 Table of Global Contents / فهرس المحتويات العام
 
-- [ Part 1: English Documentation](#-part-1-english-documentation)
+- [Part 1: English Documentation](#part-1-english-documentation)
   - [1. Executive Overview](#1-executive-overview)
-  - [2. Key Features & Security Highlights](#2-key-features--security-highlights)
-  - [3. Architecture & Technical Stack](#3-architecture--technical-stack)
-  - [4. Proprietary Verification Token Protocol](#4-proprietary-verification-token-protocol)
-  - [5. Project Directory & File Structure](#5-project-directory--file-structure)
-  - [6. Getting Started & Installation](#6-getting-started--installation)
-  - [7. Production Deployment (Vercel & Self-Hosted)](#7-production-deployment-vercel--self-hosted)
-  - [8. Engineering Best Practices & Standards](#8-engineering-best-practices--standards)
-  - [9. Product Roadmap](#9-product-roadmap)
-  - [10. Contributing & License](#10-contributing--license)
+  - [2. White-Label Branding System](#2-white-label-branding-system)
+  - [3. Key Features & Security Highlights](#3-key-features--security-highlights)
+  - [4. Architecture & Technical Stack](#4-architecture--technical-stack)
+  - [5. Proprietary Verification Token Protocol](#5-proprietary-verification-token-protocol)
+  - [6. Project Directory & File Structure](#6-project-directory--file-structure)
+  - [7. Getting Started & Installation](#7-getting-started--installation)
+  - [8. Production Deployment (Vercel & Self-Hosted)](#8-production-deployment-vercel--self-hosted)
+  - [9. Engineering Best Practices & Standards](#9-engineering-best-practices--standards)
+  - [10. Product Roadmap](#10-product-roadmap)
+  - [11. Contributing & License](#11-contributing--license)
+- [الجزء الثاني: دليل التوثيق باللغة العربية](#-الجزء-الثاني-دليل-التوثيق-باللغة-العربية)
+  - [1. نظرة عامة ورؤية المنصة](#1-نظرة-عامة-ورؤية-المنصة)
+  - [2. نظام تخصيص الهوية للمؤسسات (White-Label)](#2-نظام-تخصيص-الهوية-للمؤسسات-white-label)
+  - [3. الميزات الرئيسية والأمان المؤسسي](#3-الميزات-الرئيسية-والأمان-المؤسسي)
+  - [4. المعمارية الهندسية وحزمة التقنيات](#4-المعمارية-الهندسية-وحزمة-التقنيات)
+  - [5. بروتوكول التحقق الأمني من الرموز](#5-بروتوكول-التحقق-الأمني-من-الرموز)
+  - [6. الهيكل التنظيمي للملفات والمجلدات](#6-الهيكل-التنظيمي-للملفات-والمجلدات)
+  - [7. دليل التثبيت والتشغيل المحلي](#7-دليل-التثبيت-والتشغيل-المحلي)
+  - [8. إعدادات النشر على السحابة (Vercel والخوادم الخاصة)](#8-إعدادات-النشر-على-السحابة-vercel-والخوادم-الخاصة)
+  - [9. معايير التطوير وجودة الكود](#9-معايير-التطوير-وجودة-الكود)
+  - [10. خارطة الطريق والتطوير المستقبلي](#10-خارطة-الطريق-والتطوير-المستقبلي)
+  - [11. المساهمة والترخيص](#11-المساهمة-والترخيص)
+
 ---
 
 # Part 1: English Documentation
 
 ## 1. Executive Overview
 
-The **Knoz Certificate Verification Portal** is an ultra-fast, highly secure web application engineered for **Knoz Academy (أكاديمية كنوز)**. Its primary mission is to authenticate and present academic graduation credentials, course accomplishments, teacher credentials, and attendance records for students when dynamic QR codes on physical or digital certificates are scanned.
+The **Academic Certificate Verification Portal** is a high-speed, secure, production-grade web application engineered for **academies, universities, and training institutes**. Its primary mission is to authenticate and present academic graduation credentials, course accomplishments, instructor records, and attendance schedules whenever dynamic QR codes on physical or digital certificates are scanned.
 
-Built on **Angular 21** with a **Zoneless Signal-based architecture**, styled with **Tailwind CSS v4**, and backed by an isolated **Serverless / Reverse-Proxy Gateway**, the portal ensures:
+Built on **Angular 21** with a **Zoneless Signal-based architecture**, styled with **Tailwind CSS v4**, and backed by an isolated **Serverless / Reverse-Proxy Gateway**, the platform guarantees:
+- **Instant White-Label Adaptation:** Complete institution customization (name, logo, brand colors) managed via a single configuration file.
 - **Zero API Credential Exposure:** End users and client browsers never see internal authentication tokens, remote server addresses, or database identifiers.
-- **Client-Side Anti-Tamper Verification:** A proprietary token validator audits incoming verification requests instantly before contacting the backend.
+- **Client-Side Anti-Tamper Verification:** A proprietary token validator audits incoming verification requests instantly before contacting upstream servers.
 - **Bilingual Fluidity:** Seamless, instantaneous switching between Arabic (RTL) and English (LTR) without page reloads.
-- **Visual Prestige:** An academic luxury aesthetic combining Emerald Green (`#0F392B`), Royal Gold (`#C8A559`), and warm cream tones with micro-animations.
+- **Prestige Bento-Box Presentation:** Official dynamic golden seal, adaptive typography, and clean micro-interactions.
 
 ---
 
-## 2. Key Features & Security Highlights
+## 2. White-Label Branding System
+
+The portal is designed from the ground up as a turnkey **White-Label Solution**. You can rebrand the entire application for any educational institution in seconds without modifying core components or environment variables.
+
+### Central Configuration File: `src/app/core/config/academy.config.ts`
+
+```typescript
+export interface AcademyConfig {
+  nameAr: string;
+  nameEn: string;
+  logoUrl: string;
+  primaryColor: string;
+  secondaryColor: string;
+}
+
+export const ACADEMY_CONFIG: AcademyConfig = {
+  nameAr: 'اسم الأكاديمية بالعربية',
+  nameEn: 'Academy Name in English',
+  logoUrl: '/assets/logo.jpeg',
+  primaryColor: '#1E3A8A',    // Main Brand Color (Seals, primary headers, buttons)
+  secondaryColor: '#FBBF24',  // Accent Color (Gold trim, highlights, badges)
+};
+```
+
+### How It Works:
+- **`BrandingService`**: Injects CSS variables (`--brand-primary`, `--brand-secondary`) dynamically into `:root`.
+- **Dynamic Assets**: Automatically updates the browser favicon and page title according to the active language.
+- **Tailwind Integration**: Colors cascade directly through Tailwind CSS v4 variables without rebuilding stylesheets.
+
+---
+
+## 3. Key Features & Security Highlights
 
 ### 🛡️ 1. Anti-Tamper Link Validation
 - URLs generated via QR codes carry encoded academic verification tokens.
@@ -73,7 +118,7 @@ Built on **Angular 21** with a **Zoneless Signal-based architecture**, styled wi
 ### 🌐 3. Real-Time Localization (RTL / LTR)
 - Built-in dictionary covering all verification states, labels, and error notices in **Arabic** and **English**.
 - Automatic document direction switching (`dir="rtl"` / `dir="ltr"`).
-- Localized date formatting, 12-hour timetable scheduling (`ص / م` vs `AM / PM`), and Arabic day-name resolution.
+- Localized date formatting, 12-hour timetable scheduling (`ص / م` vs `AM / PM`), and localized day-name resolution.
 
 ### 📊 4. Bento-Box Academic Dashboard
 - **Official Golden Seal:** Dynamic animated seal reflecting verified status.
@@ -84,7 +129,7 @@ Built on **Angular 21** with a **Zoneless Signal-based architecture**, styled wi
 
 ---
 
-## 3. Architecture & Technical Stack
+## 4. Architecture & Technical Stack
 
 ```
 +-----------------------------------------------------------------------------------------+
@@ -124,14 +169,14 @@ Built on **Angular 21** with a **Zoneless Signal-based architecture**, styled wi
 | :--- | :--- | :--- | :--- |
 | **Frontend Framework** | **Angular** | `21.2.0` | Standalone components, Zoneless change detection, Signals. |
 | **Language & Typings** | **TypeScript** | `~5.9.2` | Strict mode typing for reliable execution. |
-| **Styling Engine** | **Tailwind CSS** | `^4.1.12` | Modern styling via `@tailwindcss/postcss`. |
+| **Styling Engine** | **Tailwind CSS** | `^4.1.12` | Modern styling via `@tailwindcss/postcss` and CSS variables. |
 | **Iconography & Fonts** | **FontAwesome + Google Fonts** | `^7.3.1` | Web typography (`Amiri` and `Tajawal`) and vector icons. |
 | **Server Runtime** | **Node.js / Express** | `20+` / `5.2.1` | Application serving and internal proxy endpoint. |
 | **Serverless Engine** | **Vercel Functions** | ES Modules | Edge-ready serverless execution for `/api/verify`. |
 
 ---
 
-## 4. Proprietary Verification Token Protocol
+## 5. Proprietary Verification Token Protocol
 
 To ensure academic certificates cannot be easily enumerated or guessed:
 
@@ -143,22 +188,25 @@ To ensure academic certificates cannot be easily enumerated or guessed:
 
 ---
 
-## 5. Project Directory & File Structure
+## 6. Project Directory & File Structure
 
 ```
-knoz-verification/
+academic-verification/
 ├── api/
 │   └── verify.js                     # Secure backend proxy handler (Vercel Serverless Function)
 ├── public/
 │   ├── assets/
-│   │   └── logo.jpeg                 # Official Knoz Academy brand logo
-│   └── favicon.ico                   # Application browser favicon
+│   │   └── logo.jpeg                 # Institution brand logo
+│   └── favicon.ico                   # Browser favicon
 ├── src/
 │   ├── app/
 │   │   ├── core/
+│   │   │   ├── config/
+│   │   │   │   └── academy.config.ts # Central White-Label branding configuration
 │   │   │   ├── mock/
 │   │   │   │   └── dictionary.ts     # Bilingual dictionary (Arabic / English)
 │   │   │   ├── services/
+│   │   │   │   ├── branding.service.ts     # Dynamic branding & CSS variable service
 │   │   │   │   └── verification.service.ts # Frontend HTTP verification service
 │   │   │   └── utils/
 │   │   │       └── ssp-cipher.ts     # Client-side verification token validation logic
@@ -172,7 +220,7 @@ knoz-verification/
 │   │   └── app.ts                    # Root standalone component
 │   ├── index.html                    # Application HTML shell and font links
 │   ├── main.ts                       # Application entry point (Zoneless)
-│   └── styles.css                    # Tailwind CSS imports and theme configuration
+│   └── styles.css                    # Tailwind CSS imports and brand CSS custom properties
 ├── .env.example                      # Template for required environment variables (no secrets)
 ├── .gitignore                        # Git ignore rules protecting .env and build files
 ├── angular.json                      # Angular workspace configuration
@@ -184,7 +232,7 @@ knoz-verification/
 
 ---
 
-## 6. Getting Started & Installation
+## 7. Getting Started & Installation
 
 ### Prerequisites
 - **Node.js**: `v20.12.0` or higher
@@ -195,8 +243,8 @@ knoz-verification/
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/YOUR_ORGANIZATION/knoz-verification.git
-   cd knoz-verification
+   git clone https://github.com/YOUR_ORGANIZATION/academic-verification.git
+   cd academic-verification
    ```
 
 2. **Install Dependencies:**
@@ -216,7 +264,10 @@ knoz-verification/
    KNOZ_API_PASSWORD=your_service_password
    ```
 
-4. **Start Development Server:**
+4. **Customize Your Branding:**
+   Open `src/app/core/config/academy.config.ts` and set your institution's name, logo URL, and colors.
+
+5. **Start Development Server:**
    ```bash
    npm run dev
    ```
@@ -227,7 +278,7 @@ knoz-verification/
 
 ---
 
-## 7. Production Deployment (Vercel & Self-Hosted)
+## 8. Production Deployment (Vercel & Self-Hosted)
 
 ### Deployment Option A: Vercel (Recommended)
 
@@ -252,15 +303,16 @@ The server will run on port `3000` (or the configured `PORT`), securely serving 
 
 ---
 
-## 8. Engineering Best Practices & Standards
+## 9. Engineering Best Practices & Standards
 
 - **Zero-Secret Commitment:** All API endpoints and credentials remain strictly on the server and are excluded from source control.
+- **Strict Clean Architecture:** No hardcoded strings in services; pure signals for branding tokens.
 - **Zoneless Signal Reactivity:** High performance and minimal bundle footprint by leveraging Angular 21 native Signals.
 - **Client-Side Defense:** Early rejection of malformed tokens saves server bandwidth and compute resources.
 
 ---
 
-## 9. Product Roadmap
+## 10. Product Roadmap
 
 - [ ] One-click PDF download for verified credentials.
 - [ ] Native mobile sharing via Web Share API.
@@ -268,45 +320,64 @@ The server will run on port `3000` (or the configured `PORT`), securely serving 
 
 ---
 
-## 10. Contributing & License
+## 11. Contributing & License
 
 Contributions are welcome via standard Pull Requests. Please ensure clean commit messages.
 
-**License:** Licensed under the **MIT License**. Copyright &copy; Knoz Academy.
+**License:** Licensed under the **MIT License**. Open source for academic and enterprise use.
 
 ---
 ---
 
-#  الجزء الثاني: دليل التوثيق باللغة العربية
+# الجزء الثاني: دليل التوثيق باللغة العربية
 
-- [ الجزء الثاني: دليل التوثيق باللغة العربية](#-الجزء-الثاني-دليل-التوثيق-باللغة-العربية)
-  - [1. نظرة عامة ورؤية المنصة](#1-نظرة-عامة-ورؤية-المنصة)
-  - [2. الميزات الرئيسية والأمان المؤسسي](#2-الميزات-الرئيسية-والأمان-المؤسسي)
-  - [3. المعمارية الهندسية وحزمة التقنيات](#3-المعمارية-الهندسية-وحزمة-التقنيات)
-  - [4. بروتوكول التحقق الأمني من الرموز](#4-بروتوكول-التحقق-الأمني-من-الرموز)
-  - [5. الهيكل التنظيمي للملفات والمجلدات](#5-الهيكل-التنظيمي-للملفات-والمجلدات)
-  - [6. دليل التثبيت والتشغيل المحلي](#6-دليل-التثبيت-والتشغيل-المحلي)
-  - [7. إعدادات النشر على السحابة (Vercel والخوادم الخاصة)](#7-إعدادات-النشر-على-السحابة-vercel-والخوادم-الخاصة)
-  - [8. معايير التطوير وجودة الكود](#8-معايير-التطوير-وجودة-الكود)
-  - [9. خارطة الطريق والتطوير المستقبلي](#9-خارطة-الطريق-والتطوير-المستقبلي)
-  - [10. المساهمة والترخيص](#10-المساهمة-والترخيص)
-
----
 ## 1. نظرة عامة ورؤية المنصة
 
-**بوابة التحقق الإلكتروني من الشهادات (Knoz Certificate Verification Portal)** هي منظومة ويب مؤسسية فائقة السرعة وعالية الأمان، صُممت خصيصاً لصالح **أكاديمية كنوز**. الهدف الأساسي من المنظومة هو توفير وسيلة موثوقة وفورية للتحقق من صحة الشهادات الأكاديمية الصادرة من الأكاديمية، وعرض تفاصيل إتمام الدورات، وبيانات المعلمين، والمشرفين، وسجل الحصص الأسبوعية عند مسح رمز الاستجابة السريعة (QR Code) المطبوع على الشهادة.
+**بوابة التحقق الإلكتروني من الشهادات الأكاديمية (Academic Certificate Verification Portal)** هي منظومة ويب مؤسسية فائقة السرعة وعالية الأمان، صُممت لصالح **الجامعات، الأكاديميات، والمراكز التعليمية والتدريبية**. الهدف الأساسي من المنظومة هو توفير منصة موثوقة وفورية للتحقق من صحة الشهادات الأكاديمية، وعرض تفاصيل إتمام الدورات، وبيانات المعلمين، والمشرفين، وسجل الحصص الأسبوعية عند مسح رمز الاستجابة السريعة (QR Code) المطبوع على الشهادة.
 
 تم بناء البوابة بالاعتماد على أحدث إصدارات إطار العمل **Angular 21** بنظام **الإشارات التفاعلية (Signals)** الخالي تماماً من مكتبة Zone.js التقليدية (**Zoneless Architecture**)، مع واجهة بصرية مصممة بأحدث معايير **Tailwind CSS v4**، وخادم وسيط آمن لحماية البيانات الحساسة (**Reverse Proxy Gateway**).
 
 ### ركائز المنظومة:
+- **نظام هوية قابل للتخصيص الكامل (White-Label):** إمكانية ضبط اسم الأكاديمية، شعارها، وألوانها المؤسسية من ملف كود مركزي واحد في ثوانٍ معدودة.
 - **حماية تامة للبيانات والاعتمادات:** عدم كشف أي مفاتيح سرية، أو روابط خوادم داخلية، أو معرفات قواعد البيانات للمتصفح أو في مستودع الكود العام.
 - **فحص أمني للروابط على طرف العميل:** فحص ذاتي للرابط قبل إجراء أي اتصال بالسيرفر لمنع التلاعب وحماية الخوادم من الاستعلامات العشوائية.
 - **دعم كامل للغتين (العربية والإنجليزية):** تجربة مستخدم فورية تتبدل بين واجهة RTL و LTR بضغطة زر وبدون إعادة تحميل الصفحة.
-- **هوية بصرية أكاديمية فاخرة:** تصميم راقٍ يجمع بين اللون الأخضر الملكي للأكاديمية (`#0F392B`) والذهب الأنيق (`#C8A559`)، مع ختم ذهبي تفاعلي وتنسيق بطاقات بينتو الحديثة (Bento-Box).
+- **هوية بصرية أكاديمية فاخرة:** تصميم راقٍ يعتمد على نظام بطاقات بينتو الحديثة (Bento-Box Grid) مع ختم اعتماد تفاعلي وتنسيق مرن لأسماء المكرمين.
 
 ---
 
-## 2. الميزات الرئيسية والأمان المؤسسي
+## 2. نظام تخصيص الهوية للمؤسسات (White-Label)
+
+المنظومة مهيأة كحل متكامل جاهز لإعادة التسمية (**Turnkey White-Label Solution**) لأي مؤسسة تعليمية دون الحاجة لتعديل المكونات البرمجية أو إعدادات السيرفر.
+
+### ملف الإعدادات المركزي: `src/app/core/config/academy.config.ts`
+
+```typescript
+export interface AcademyConfig {
+  nameAr: string;
+  nameEn: string;
+  logoUrl: string;
+  primaryColor: string;
+  secondaryColor: string;
+}
+
+export const ACADEMY_CONFIG: AcademyConfig = {
+  nameAr: 'أكاديمية التعليم الحديث',
+  nameEn: 'Modern Learning Academy',
+  logoUrl: '/assets/logo.jpeg',
+  primaryColor: '#1E3A8A',    // اللون الأساسي (الختم، الأزرار، الترويسة)
+  secondaryColor: '#FBBF24',  // اللون الثانوي (اللمسات الجمالية، الإطارات، الشارات)
+};
+```
+
+### كيف يعمل النظام برمجياً؟
+- تتولى خدمة **`BrandingService`** قراءة هذه القيم وحقن متغيرات CSS مباشرة داخل `:root` (`--brand-primary` و `--brand-secondary`).
+- يتغير عنوان الصفحة (`document.title`) وأيقونة الموقع (`favicon`) تلقائياً بحسب اسم وشعار المؤسسة واللغة النشطة.
+- ترتبط ألوان الواجهة تلقائياً بـ Tailwind CSS v4 دون الحاجة لإعادة بناء ملفات الـ CSS يدوياً.
+
+---
+
+## 3. الميزات الرئيسية والأمان المؤسسي
 
 ### 🛡️ 1. الحماية الاستباقية من الروابط التالفة أو المعدلة
 - روابط الـ QR تحتوي على رموز توثيق معتمدة تحمي المعرفات الحقيقية من الظهور المباشر.
@@ -324,7 +395,7 @@ Contributions are welcome via standard Pull Requests. Please ensure clean commit
 - مواءمة كاملة لصيغ التواريخ ومواعيد الحصص وأسماء الأيام وتنسيق الوقت بصيغة 12 ساعة (`ص / م` للعربية و `AM / PM` للإنجليزية).
 
 ### 📊 4. لوحة تفاصيل أكاديمية متكاملة (Bento-Box Grid)
-- **الختم الأكاديمي الذهبي:** حركة دخول تفاعلية تحاكي ختم الاعتماد الرسمي مع تأثير نبض ذهبي.
+- **الختم الأكاديمي التفاعلي:** حركة دخول ديناميكية تحاكي ختم الاعتماد الرسمي بلون المؤسسة الثانوي.
 - **بطاقة اسم الطالب المكرّم:** مساحة عريضة تتكيف تلقائياً مع الأسماء الطويلة والمركبة.
 - **تفاصيل الدورة والمادة:** عرض اسم الباقة الدراسية والمادة التخصصية مع أيقونات توضيحية.
 - **بطاقات الكادر التعليمي:** بطاقة مميزة للمعلم/المعلمة مع بطاقة مخصصة لمشرف/مشرفة المسار.
@@ -332,7 +403,7 @@ Contributions are welcome via standard Pull Requests. Please ensure clean commit
 
 ---
 
-## 3. المعمارية الهندسية وحزمة التقنيات
+## 4. المعمارية الهندسية وحزمة التقنيات
 
 ### جدول حزمة التقنيات البرمجية
 
@@ -340,47 +411,50 @@ Contributions are welcome via standard Pull Requests. Please ensure clean commit
 | :--- | :--- | :--- | :--- |
 | **إطار عمل الواجهة** | **Angular** | `21.2.0` | مكونات مستقلة (Standalone)، إدارة الحالة عبر الإشارات (Signals)، كشف تغيير سريع بدون Zone.js. |
 | **لغة البرمجة** | **TypeScript** | `~5.9.2` | نمط برمجي صارم وخالٍ من الأخطاء التشغيلية. |
-| **محرك التنسيق** | **Tailwind CSS** | `^4.1.12` | أحدث جيل من تيلويند باستخدام محرك PostCSS وتطبيق متغيرات ألوان الأكاديمية. |
+| **محرك التنسيق** | **Tailwind CSS** | `^4.1.12` | أحدث جيل من تيلويند باستخدام محرك PostCSS وتطبيق متغيرات ألوان المؤسسة التفاعلية. |
 | **الأيقونات والخطوط** | **FontAwesome + Google Fonts** | `^7.3.1` | خطوط عربية متميزة (خط **الأميري** للعناوين و**تجوّل** للنصوص). |
 | **خادم التطوير والإنتاج** | **Express.js / Node.js** | `5.2.1` / `20+` | خادم Full-Stack لاستضافة التطبيق وتوفير مسار الـ Proxy الآمن. |
 | **الدوال السحابية** | **Vercel Serverless** | ES Modules | تشغيل دالة التحقق الخلفية سحابياً عبر `/api/verify.js`. |
 
 ---
 
-## 4. بروتوكول التحقق الأمني من الرموز
+## 5. بروتوكول التحقق الأمني من الرموز
 
 لضمان سلامة الشهادات الأكاديمية وعدم إمكانية تخمين أرقامها أو التلاعب بها:
 
 - **رموز التحقق المشفرة:** روابط الشهادات لا تتضمن أرقام السجلات المباشرة، بل تعتمد على رموز مشفرة لحماية الخصوصية.
 - **الفحص الهيكلي السريع:** يقوم التطبيق بالتأكد من صحة الرمز أمنياً قبل مخاطبة السيرفر.
-- **مقاومة التخمين العشوائي:** أي رمز غير متطابق مع معايير الأكاديمية يتم رفضه فوراً من المتصفح لحماية السيرفر من المحاولات العشوائية.
+- **مقاومة التخمين العشوائي:** أي رمز غير متطابق مع معايير المنظومة يتم رفضه فوراً من المتصفح لحماية السيرفر من المحاولات العشوائية.
 
 *(ملاحظة أمنية: يتم الاحتفاظ بتفاصيل الخوارزمية الداخلية وقواعد التشفير الخاصة بالنظام بشكل سري وغير معلن لحماية خصوصية وأمان الشهادات).*
 
 ---
 
-## 5. الهيكل التنظيمي للملفات والمجلدات
+## 6. الهيكل التنظيمي للملفات والمجلدات
 
 ```
-knoz-verification/
+academic-verification/
 ├── api/
 │   └── verify.js                     # دالة Vercel Serverless الخلفية لتأمين الاتصال بالـ API
 ├── public/
 │   ├── assets/
-│   │   └── logo.jpeg                 # الشعار الرسمي المعتمد لأكاديمية كنوز
+│   │   └── logo.jpeg                 # شعار المؤسسة التعليمية
 │   └── favicon.ico                   # أيقونة الموقع للمتصفح
 ├── src/
 │   ├── app/
 │   │   ├── core/
+│   │   │   ├── config/
+│   │   │   │   └── academy.config.ts # إعدادات تخصيص الهوية (White-Label)
 │   │   │   ├── mock/
 │   │   │   │   └── dictionary.ts     # قاموس النصوص للغتين العربية والإنجليزية
 │   │   │   ├── services/
+│   │   │   │   ├── branding.service.ts     # خدمة إدارة الهوية وحقن الألوان
 │   │   │   │   └── verification.service.ts # خدمة الاتصال البرمجية للواجهة
 │   │   │   └── utils/
 │   │   │       └── ssp-cipher.ts     # منطق فحص سلامة رمز التحقق
 │   │   ├── features/
 │   │   │   └── certificate-verification/
-│   │   │       ├── certificate-verification.html # قالب الواجهة وبطاقات التفاصيل والختم الذهبي
+│   │   │       ├── certificate-verification.html # قالب الواجهة وبطاقات التفاصيل والختم
 │   │   │       └── certificate-verification.ts   # إدارة الحالة التفاعلية للمكون (Signals)
 │   │   ├── app.config.ts             # إعدادات التطبيق وتوفير مسارات التوجيه
 │   │   ├── app.html                  # حاوية التوجيه الجذرية
@@ -388,7 +462,7 @@ knoz-verification/
 │   │   └── app.ts                    # المكون الرئيسي للتطبيق
 │   ├── index.html                    # ملف الـ HTML الرئيسي مع خطوط جوجل
 │   ├── main.ts                       # نقطة انطلاق التطبيق بدون Zone.js
-│   └── styles.css                    # إعدادات Tailwind CSS والمتغيرات اللونية الخاصة
+│   └── styles.css                    # إعدادات Tailwind ومتغيرات الألوان التفاعلية
 ├── .env.example                      # نموذج للمتغيرات البيئية خالٍ من الأسرار
 ├── .gitignore                        # استبعاد ملفات البيئة من الرفع لـ Git
 ├── angular.json                      # إعدادات بناء Angular
@@ -400,7 +474,7 @@ knoz-verification/
 
 ---
 
-## 6. دليل التثبيت والتشغيل المحلي
+## 7. دليل التثبيت والتشغيل المحلي
 
 ### المتطلبات الأساسية
 - بيئة **Node.js** بإصدار `20.12.0` أو أحدث.
@@ -411,8 +485,8 @@ knoz-verification/
 
 1. **استنساخ المستودع (Clone):**
    ```bash
-   git clone https://github.com/YOUR_ORGANIZATION/knoz-verification.git
-   cd knoz-verification
+   git clone https://github.com/YOUR_ORGANIZATION/academic-verification.git
+   cd academic-verification
    ```
 
 2. **تثبيت الحزم التابعة:**
@@ -425,14 +499,17 @@ knoz-verification/
    ```bash
    cp .env.example .env
    ```
-   ثم ضعي بيانات الربط الخاصة بك في ملف `.env`:
+   ثم ضعي بيانات الربط الخاصة بالخدمة في ملف `.env`:
    ```env
    KNOZ_API_BASE_URL=https://your-api-domain.example.com
    KNOZ_API_USERNAME=your_username_here
    KNOZ_API_PASSWORD=your_password_here
    ```
 
-4. **تشغيل خادم التطوير:**
+4. **تخصيص هوية الأكاديمية (اختياري):**
+   عدلي ملف `src/app/core/config/academy.config.ts` وضعي اسم وشعار وألوان الأكاديمية الخاصة بك.
+
+5. **تشغيل خادم التطوير:**
    ```bash
    npm run dev
    ```
@@ -443,7 +520,7 @@ knoz-verification/
 
 ---
 
-## 7. إعدادات النشر على السحابة (Vercel والخوادم الخاصة)
+## 8. إعدادات النشر على السحابة (Vercel والخوادم الخاصة)
 
 ### الخيار الأول: النشر عبر Vercel (موصى به)
 
@@ -467,14 +544,15 @@ npm start
 
 ---
 
-## 8. معايير التطوير وجودة الكود
+## 9. معايير التطوير وجودة الكود
 
 - **حماية الأسرار:** لا يتم تضمين أي مفاتيح أو روابط حقيقية في الكود المصدري نهائياً.
+- **معمارية الكود النظيف (Clean Code):** اعتماد كامل على Angular Signals ومصدر وحيد للحقيقة دون نصوص أو قيم بديلة مخفية.
 - **الأداء الفائق:** استغناء كامل عن المكتبات الثقيلة والاعتماد على Angular Signals و Tailwind CSS v4.
 
 ---
 
-## 9. خارطة الطريق والتطوير المستقبلي
+## 10. خارطة الطريق والتطوير المستقبلي
 
 - [ ] دعم تصدير الشهادة كملف PDF موثق.
 - [ ] المشاركة المباشرة عبر تطبيقات التواصل بالهاتف.
@@ -482,6 +560,6 @@ npm start
 
 ---
 
-## 10. المساهمة والترخيص
+## 11. المساهمة والترخيص
 
-المشروع مرخص تحت رخصة **MIT**. جميع الحقوق محفوظة &copy; أكاديمية كنوز.
+المشروع مرخص تحت رخصة **MIT**. مفتوح المصدر للاستخدام الأكاديمي والمؤسسي.
