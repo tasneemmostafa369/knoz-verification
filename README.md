@@ -26,7 +26,7 @@
 
 ---
 
-## 📑 Table of Global Contents / فهرس المحتويات العام
+## 📑 Table of Global Contents
 
 - [Part 1: English Documentation](#part-1-english-documentation)
   - [1. Executive Overview](#1-executive-overview)
@@ -317,7 +317,7 @@ Contributions are welcome via standard Pull Requests. Please ensure clean commit
 ---
 ---
 
-# الجزء الثاني: دليل التوثيق باللغة العربية
+## 📑 فهرس المحتويات العام
 - [الجزء الثاني: دليل التوثيق باللغة العربية](#-الجزء-الثاني-دليل-التوثيق-باللغة-العربية)
   - [1. نظرة عامة ورؤية المنصة](#1-نظرة-عامة-ورؤية-المنصة)
   - [2. نظام تخصيص الهوية للمؤسسات (White-Label)](#2-نظام-تخصيص-الهوية-للمؤسسات-white-label)
@@ -330,6 +330,10 @@ Contributions are welcome via standard Pull Requests. Please ensure clean commit
   - [9. معايير التطوير وجودة الكود](#9-معايير-التطوير-وجودة-الكود)
   - [10. خارطة الطريق والتطوير المستقبلي](#10-خارطة-الطريق-والتطوير-المستقبلي)
   - [11. المساهمة والترخيص](#11-المساهمة-والترخيص)
+
+---
+
+# الجزء الثاني: دليل التوثيق باللغة العربية
 
 ## 1. نظرة عامة ورؤية المنصة
 
