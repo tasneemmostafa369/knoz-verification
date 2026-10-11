@@ -44,6 +44,8 @@ export class CertificateVerificationComponent implements OnInit {
   texts = computed(() => DICTIONARY[this.lang()]);
 
   ngOnInit() {
+    this.branding.updateDocumentTitle(this.lang(), this.texts()['verificationTitle']);
+
     this.route.paramMap.subscribe(params => {
       const rawSspId = params.get('sspId');
 
@@ -76,6 +78,7 @@ export class CertificateVerificationComponent implements OnInit {
 
   toggleLang() {
     this.lang.update(l => l === 'ar' ? 'en' : 'ar');
+    this.branding.updateDocumentTitle(this.lang(), this.texts()['verificationTitle']);
     // If error state exists, update the message
     if (this.error()) {
       if (this.error() === DICTIONARY['ar']['errorNoCourseId'] || this.error() === DICTIONARY['en']['errorNoCourseId']) {
