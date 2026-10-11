@@ -7,9 +7,9 @@ export interface AcademyConfig {
 }
 
 export const ACADEMY_CONFIG: AcademyConfig = {
-  nameAr: 'أكاديمية تسنيم',
-  nameEn: 'Tasneem Academy',
+  nameAr: 'أكاديمية كنوز',
+  nameEn: 'Knoz Academy',
   logoUrl: '/assets/logo.jpeg',
-  primaryColor: '#1E3A8A',    // اللون الأساسي (كحلي ملكي / أزرق عميق)
-  secondaryColor: '#FBBF24',  // اللون الثانوي (ذهبي دافئ)
+  primaryColor: '#0F392B',    // اللون الأساسي (كحلي ملكي / أزرق عميق)
+  secondaryColor: '#C8A559',  // اللون الثانوي (ذهبي دافئ)
 };
