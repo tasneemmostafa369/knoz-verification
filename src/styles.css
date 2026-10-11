@@ -1,8 +1,15 @@
 @import 'tailwindcss';
 
+:root {
+  --brand-primary: #1E3A8A;
+  --brand-secondary: #FBBF24;
+}
+
 @theme {
-  --color-knoz-green: #0F392B;
-  --color-knoz-gold: #C8A559;
+  --color-knoz-green: var(--brand-primary);
+  --color-knoz-gold: var(--brand-secondary);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
   --color-knoz-cream: #F7F3E8;
   --color-knoz-text: #1F2933;
   --color-knoz-muted: #6B7280;

@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { VerificationService } from '../../core/services/verification.service';
 import { DICTIONARY, Language } from '../../core/mock/dictionary';
 import { validateAndDecodeSspId } from '../../core/utils/ssp-cipher';
+import { BrandingService } from '../../core/services/branding.service';
 
 @Component({
   selector: 'app-certificate-verification',
@@ -16,9 +17,9 @@ import { validateAndDecodeSspId } from '../../core/utils/ssp-cipher';
       100% { transform: scale(1) rotate(0deg); opacity: 1; }
     }
     @keyframes glow {
-      0% { box-shadow: 0 0 10px rgba(200, 165, 89, 0.2); }
-      50% { box-shadow: 0 0 40px rgba(200, 165, 89, 0.6); }
-      100% { box-shadow: 0 0 10px rgba(200, 165, 89, 0.2); }
+      0% { box-shadow: 0 0 10px rgba(var(--brand-secondary), 0.2); }
+      50% { box-shadow: 0 0 40px rgba(var(--brand-secondary), 0.6); }
+      100% { box-shadow: 0 0 10px rgba(var(--brand-secondary), 0.2); }
     }
     .glass-panel {
       background: rgba(247, 243, 232, 0.6);
@@ -31,6 +32,7 @@ import { validateAndDecodeSspId } from '../../core/utils/ssp-cipher';
 export class CertificateVerificationComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private verificationService = inject(VerificationService);
+  readonly branding = inject(BrandingService);
 
   isLoading = signal<boolean>(true);
   isInvalid = signal<boolean>(false);

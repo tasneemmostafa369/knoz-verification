@@ -1,8 +1,10 @@
+import { ACADEMY_CONFIG } from '../config/academy.config';
+
 export type Language = 'ar' | 'en';
 
 export const DICTIONARY: Record<Language, Record<string, string>> = {
   ar: {
-    academyName: 'أكاديمية كنوز',
+    academyName: ACADEMY_CONFIG.nameAr ?? 'الأكاديمية',
     verificationTitle: 'نظام التحقق الإلكتروني من الشهادات',
     verifiedSuccess: 'شهادة معتمدة وموثقة',
     presentedTo: 'تُمنح هذه الشهادة إلى الطالب/ـة',
@@ -32,7 +34,7 @@ export const DICTIONARY: Record<Language, Record<string, string>> = {
     officialWebsite: 'الموقع الرسمي'
   },
   en: {
-    academyName: 'Knoz Academy',
+    academyName: ACADEMY_CONFIG.nameEn ?? 'Academy',
     verificationTitle: 'Electronic Certificate Verification System',
     verifiedSuccess: 'Verified & Authenticated Certificate',
     presentedTo: 'This Certificate is Presented To',
