@@ -8,20 +8,39 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load .env if present
-if (typeof process.loadEnvFile === 'function') {
-  try {
-    const envPath = path.join(__dirname, '.env');
-    if (fs.existsSync(envPath)) {
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  if (typeof process.loadEnvFile === 'function') {
+    try {
       process.loadEnvFile(envPath);
-    }
-  } catch (e) {
-    // Ignore error if .env doesn't exist
+    } catch (e) {}
   }
+  // Manual parser fallback for older Node versions or edge cases
+  try {
+    const rawContent = fs.readFileSync(envPath, 'utf8');
+    rawContent.split(/\r?\n/).forEach(line => {
+      const trimmed = line.trim();
+      if (trimmed && !trimmed.startsWith('#')) {
+        const eqIdx = trimmed.indexOf('=');
+        if (eqIdx !== -1) {
+          const key = trimmed.slice(0, eqIdx).trim();
+          let val = trimmed.slice(eqIdx + 1).trim();
+          if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+            val = val.slice(1, -1);
+          }
+          if (!process.env[key]) {
+            process.env[key] = val;
+          }
+        }
+      }
+    });
+  } catch (e) {}
 }
 
+
 const app = express();
-const PORT = 3000;
-const HOST = '0.0.0.0';
+const PORT = process.env.PORT || 3001;
+const HOST = process.env.HOST || '0.0.0.0';
 
 app.use(express.json());
 
@@ -78,72 +97,54 @@ app.get('/api/verify', async (req, res) => {
   const username = process.env.KNOZ_API_USERNAME;
   const password = process.env.KNOZ_API_PASSWORD;
 
-  if (apiBaseUrl && username && password) {
-    try {
-      // 1. Login to get token
-      const loginRes = await fetch(`${apiBaseUrl}/api/Auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          usernameOrEmail: username,
-          password: password,
-          appType: 0
-        })
-      });
-
-      if (loginRes.ok) {
-        const data = await loginRes.json();
-        const token = data?.record?.token;
-
-        if (token) {
-          // 2. Fetch certificate details
-          const detailsRes = await fetch(`${apiBaseUrl}/api/Monitor/Assigned-Student-Course-Details?SSPId=${sspId}`, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-
-          if (detailsRes.ok) {
-            const detailsData = await detailsRes.json();
-            return res.status(200).json(detailsData);
-          }
-        }
-      }
-    } catch (error) {
-      console.warn('External Knoz API call failed, using fallback data:', error);
-    }
+  if (!apiBaseUrl || !username || !password) {
+    console.error('Server configuration error: Missing API configuration in Environment Variables');
+    return res.status(500).json({ error: 'Server configuration error: Missing API credentials in environment variables' });
   }
 
-  // Fallback demo certificate data for preview when credentials are not configured
-  return res.status(200).json({
-    status: true,
-    record: {
-      course: {
-        studentName: 'أحمد محمد العلي',
-        planName: 'باقة التميز القرآني',
-        subjectName: 'تلاوة وتجويد القرآن الكريم',
-        teacherName: 'الشيخ عبد الرحمن السعيد',
-        monitorName: 'أ. إبراهيم القحطاني',
-        totalSessions: 24,
-        sessionsCount: 24,
-        sessionDuration: 45,
-        duration: 45,
-        subscribeDate: '2024-09-01T00:00:00',
-        coursePattern: [
-          { dayOfWeek: 0, time: '16:00:00' },
-          { dayOfWeek: 2, time: '16:00:00' },
-          { dayOfWeek: 4, time: '16:00:00' }
-        ]
+  try {
+    // 1. Login to get token
+    const loginRes = await fetch(`${apiBaseUrl}/api/Auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
       },
-      sessions: [
-        { sessionDate: '2024-09-01T00:00:00' },
-        { sessionDate: '2024-11-28T00:00:00' }
-      ]
+      body: JSON.stringify({
+        usernameOrEmail: username,
+        password: password,
+        appType: 0
+      })
+    });
+
+    if (!loginRes.ok) {
+      return res.status(loginRes.status).json({ error: 'Failed to authenticate with external service' });
     }
-  });
+
+    const data = await loginRes.json();
+    const token = data?.record?.token;
+
+    if (!token) {
+      return res.status(500).json({ error: 'Failed to retrieve token' });
+    }
+
+    // 2. Fetch certificate details
+    const detailsRes = await fetch(`${apiBaseUrl}/api/Monitor/Assigned-Student-Course-Details?SSPId=${sspId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!detailsRes.ok) {
+      return res.status(detailsRes.status).json({ error: 'Failed to fetch certificate details' });
+    }
+
+    const detailsData = await detailsRes.json();
+    return res.status(200).json(detailsData);
+  } catch (error) {
+    console.error('API Error:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // Ensure Angular build exists
@@ -162,5 +163,11 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, HOST, () => {
-  console.log(`Server running on http://${HOST}:${PORT}`);
+  console.log(`\n  🚀 Server is ready:`);
+  console.log(`  ➜ Local:   http://localhost:${PORT}/`);
+  console.log(`  ➜ Network: http://${HOST === '0.0.0.0' ? '127.0.0.1' : HOST}:${PORT}/`);
+  if (!process.env.KNOZ_API_BASE_URL || !process.env.KNOZ_API_USERNAME || !process.env.KNOZ_API_PASSWORD) {
+    console.warn(`\n  ⚠️  Notice: API credentials not found! Please create a .env file with KNOZ_API_BASE_URL, KNOZ_API_USERNAME, and KNOZ_API_PASSWORD.`);
+  }
+  console.log('');
 });

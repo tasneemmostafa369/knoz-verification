@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { VerificationService } from '../../core/services/verification.service';
 import { DICTIONARY, Language } from '../../core/mock/dictionary';
 import { validateAndDecodeSspId } from '../../core/utils/ssp-cipher';
@@ -8,7 +8,7 @@ import { BrandingService } from '../../core/services/branding.service';
 
 @Component({
   selector: 'app-certificate-verification',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './certificate-verification.html',
   styles: [`
     @keyframes stamp {
